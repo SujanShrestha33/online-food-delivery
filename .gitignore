@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/online-food-delivery/FileContentIndex/09846350-823d-4311-8886-f3fd4724df66.vsidx
+/.vs/online-food-delivery/v17/.wsuo
+*.vsidx
+/OnlineFoodOrdering/obj/OnlineFoodOrdering.csproj.nuget.dgspec.json
+/OnlineFoodOrdering/obj/project.assets.json
+/OnlineFoodOrdering/obj/project.nuget.cache
