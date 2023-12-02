@@ -1,0 +1,11 @@
+﻿@model OnlineFoodOrdering.Models.Entity.ApplicationUsers
+
+<h2>Delete User</h2>
+
+<p>Are you sure you want to delete this user?</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button> |
+    <a asp-action="Index">Back to List</a>
+</form>

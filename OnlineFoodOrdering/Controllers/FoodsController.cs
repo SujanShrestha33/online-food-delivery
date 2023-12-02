@@ -155,14 +155,14 @@ namespace OnlineFoodOrdering.Controllers
             {
                 _context.Foods.Remove(food);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FoodExists(int id)
         {
-          return _context.Foods.Any(e => e.FoodId == id);
+            return _context.Foods.Any(e => e.FoodId == id);
         }
     }
 }
