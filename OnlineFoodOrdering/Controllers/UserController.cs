@@ -30,7 +30,7 @@ namespace OnlineFoodOrdering.Controllers
             catch (Exception ex)
             {
                 // Log the exception or handle it appropriately
-                return View("Error");
+                return View("Error", ex);
             }
         }
 
@@ -51,7 +51,7 @@ namespace OnlineFoodOrdering.Controllers
             catch (Exception ex)
             {
                 // Log the exception or handle it appropriately
-                return View("Error");
+                return View("Error", ex);
             }
         }
 
@@ -86,7 +86,7 @@ namespace OnlineFoodOrdering.Controllers
             catch (Exception ex)
             {
                 // Log the exception or handle it appropriately
-                return View("Error");
+                return View("Error", ex);
             }
         }
 
@@ -104,7 +104,7 @@ namespace OnlineFoodOrdering.Controllers
             catch (Exception ex)
             {
                 // Log the exception or handle it appropriately
-                return View("Error");
+                return View("Error", ex);
             }
         }
 
@@ -127,7 +127,7 @@ namespace OnlineFoodOrdering.Controllers
             catch (Exception ex)
             {
                 // Log the exception or handle it appropriately
-                return View("Error");
+                return View("Error", ex);
             }
         }
     }

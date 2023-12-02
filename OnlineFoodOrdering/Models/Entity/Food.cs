@@ -26,5 +26,7 @@ namespace OnlineFoodOrdering.Models.Entity
         public string Availability { get; set; }
 
         public DateTime ModifiedAt { get; set; }
+
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }

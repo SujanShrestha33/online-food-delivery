@@ -1,0 +1,60 @@
+﻿@model IEnumerable<OnlineFoodOrdering.Models.Entity.Order>
+<h2>Order Management</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>User ID</th>
+            <th>Order Date</th>
+            <th>Total Price</th>
+            <th>Delivery Address</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderId</td>
+                <td>@order.UserId</td>
+                <td>@order.OrderDate.ToShortDateString()</td>
+                <td>@order.TotalPrice</td>
+                <td>@order.DeliveryAddress</td>
+                <td>@order.Status</td>
+                <td>
+                    @if (order.Status == "Pending")
+                    {
+                        @* <a asp-action="UpdateOrderStatus" asp-route-orderId="@order.OrderId" asp-route-status="InDelivery">Mark as In Delivery</a> |
+                        <a asp-action="UpdateOrderStatus" asp-route-orderId="@order.OrderId" asp-route-status="Delivered">Mark as Delivered</a> *@
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7">
+                    <h4>Order Items</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Food</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var orderItem in order.OrderItems)
+                            {
+                                <tr>
+                                    <td>@orderItem.Food.FoodName</td>
+                                    <td>@orderItem.Quantity</td>
+                                    <td>@orderItem.Price</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

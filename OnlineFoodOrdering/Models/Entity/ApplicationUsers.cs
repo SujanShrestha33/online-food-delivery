@@ -9,5 +9,7 @@ namespace OnlineFoodOrdering.Models.Entity
 
         override
         public string PhoneNumber { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }

@@ -13,6 +13,9 @@ namespace OnlineFoodOrdering.Models.Data
         public DbSet<Categories> Categories { get; set; }
         public DbSet<SubCategories> SubCategories { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Define the primary key for Food entity
@@ -39,9 +42,27 @@ namespace OnlineFoodOrdering.Models.Data
             modelBuilder.Entity<SubCategories>()
                 .HasKey(s => s.SubCategoryId);
 
+            modelBuilder.Entity<Order>()
+            .HasMany(o => o.OrderItems)
+             .WithOne()
+            .HasForeignKey(oi => oi.OrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.Food)
+                .WithMany(f => f.OrderItems)
+                .HasForeignKey(oi => oi.FoodId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.User)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(o => o.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Add any other configurations or constraints as needed
 
             base.OnModelCreating(modelBuilder);
         }
-        }
+    }
 }
