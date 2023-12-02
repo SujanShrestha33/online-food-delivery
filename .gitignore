@@ -9,3 +9,9 @@
 /OnlineFoodOrdering/obj/project.assets.json
 /OnlineFoodOrdering/obj/project.nuget.cache
 /.vs/slnx.sqlite
+/OnlineFoodOrdering/obj/Debug/net6.0
+/OnlineFoodOrdering/bin/Debug/net6.0/OnlineFoodOrdering.dll
+/OnlineFoodOrdering/bin/Debug/net6.0/OnlineFoodOrdering.exe
+*.suo
+/.vs/OnlineFoodOrdering/DesignTimeBuild/.dtbcache.v2
+/.vs/OnlineFoodOrdering/config/applicationhost.config
