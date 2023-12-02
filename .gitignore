@@ -2,6 +2,9 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+<<<<<<< HEAD
+/OnlineFoodOrdering/obj/Debug/net6.0/OnlineFoodOrdering.AssemblyInfo.cs
+=======
 /.vs/online-food-delivery/FileContentIndex/09846350-823d-4311-8886-f3fd4724df66.vsidx
 /.vs/online-food-delivery/v17/.wsuo
 *.vsidx
@@ -9,6 +12,7 @@
 /OnlineFoodOrdering/obj/project.assets.json
 /OnlineFoodOrdering/obj/project.nuget.cache
 /.vs/slnx.sqlite
+<<<<<<< HEAD
 <<<<<<< HEAD
 /OnlineFoodOrdering/obj/Debug/net6.0
 /OnlineFoodOrdering/bin/Debug/net6.0/OnlineFoodOrdering.dll
@@ -42,3 +46,17 @@
 /OnlineFoodOrdering/bin/Debug/net6.0/OnlineFoodOrdering.pdb
 /OnlineFoodOrdering/bin/Debug/net6.0/OnlineFoodOrdering.pdb
 /OnlineFoodOrdering/bin/Debug/net6.0/OnlineFoodOrdering.staticwebassets.runtime.json
+=======
+>>>>>>> 7ea8c40e6622f65eefb0a3cc803c6ba93e60a439
+/.vs/online-food-delivery/v17/.wsuo
+/.vs/slnx.sqlite
+>>>>>>> d4fd970406231da6a3b6a70e6a259a29e806f54b
+/.vs/online-food-delivery/FileContentIndex/d4b9a018-7280-4092-b748-9ab8b4827874.vsidx
+/.vs/OnlineFoodOrdering/config/applicationhost.config
+/.vs/OnlineFoodOrdering/DesignTimeBuild/.dtbcache.v2
+/.vs/OnlineFoodOrdering/FileContentIndex/5762b604-86b8-4005-b1bf-2cca88787e43.vsidx
+/.vs/OnlineFoodOrdering/v17/.suo
+/OnlineFoodOrdering/obj/Debug/net6.0/OnlineFoodOrdering.assets.cache
+/OnlineFoodOrdering/obj/Debug/net6.0/OnlineFoodOrdering.GeneratedMSBuildEditorConfig.editorconfig
+/OnlineFoodOrdering/obj/Debug/net6.0/OnlineFoodOrdering.RazorAssemblyInfo.cache
+/.gitignore
