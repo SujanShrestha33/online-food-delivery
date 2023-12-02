@@ -60,3 +60,7 @@
 /OnlineFoodOrdering/obj/Debug/net6.0/OnlineFoodOrdering.GeneratedMSBuildEditorConfig.editorconfig
 /OnlineFoodOrdering/obj/Debug/net6.0/OnlineFoodOrdering.RazorAssemblyInfo.cache
 /.gitignore
+/OnlineFoodOrdering/bin/Debug/net6.0/OnlineFoodOrdering.dll
+/OnlineFoodOrdering/bin/Debug/net6.0/OnlineFoodOrdering.exe
+/OnlineFoodOrdering/obj/Debug/net6.0/OnlineFoodOrdering.AssemblyInfoInputs.cache
+/OnlineFoodOrdering/obj/Release/net6.0/OnlineFoodOrdering.GeneratedMSBuildEditorConfig.editorconfig
