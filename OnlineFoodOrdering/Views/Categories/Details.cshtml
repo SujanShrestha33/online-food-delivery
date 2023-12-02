@@ -1,0 +1,76 @@
+﻿@model OnlineFoodOrdering.Models.Entity.Categories
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h1>Category Details</h1>
+
+    <div>
+        <h4>Categories</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CategoryName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ModifiedDate)
+            </dd>
+        </dl>
+    </div>
+
+    <div>
+        <h4>Subcategories</h4>
+        <p>
+            <a asp-action="Create" asp-controller="SubCategories" asp-route-categoryId="@Model.CategoryId" class="btn btn-primary">Create New Subcategory</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Subcategory Name</th>
+                    <th>Description</th>
+                    <!-- Add other subcategory details as needed -->
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var subcategory in Model.SubCategories)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => subcategory.SubCategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => subcategory.SubCategoryDesc)
+                        </td>
+                        <!-- Add other subcategory details as needed -->
+                        <td>
+                            <a asp-action="Edit" asp-controller="SubCategories" asp-route-id="@subcategory.SubCategoryId" class="btn btn-warning btn-sm">Edit</a>
+                            <a asp-action="Details" asp-controller="SubCategories" asp-route-id="@subcategory.SubCategoryId" class="btn btn-info btn-sm">Details</a>
+                            <a asp-action="Delete" asp-controller="SubCategories" asp-route-id="@subcategory.SubCategoryId" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.CategoryId" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>

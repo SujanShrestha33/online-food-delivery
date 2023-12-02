@@ -1,0 +1,48 @@
+﻿@model IEnumerable<OnlineFoodOrdering.Models.Entity.Food>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h1>Food Items</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.FoodName)</th>
+                <th>@Html.DisplayNameFor(model => model.FoodDescription)</th>
+                <th>@Html.DisplayNameFor(model => model.SubCategory)</th>
+                <th>@Html.DisplayNameFor(model => model.Photo)</th>
+                <th>@Html.DisplayNameFor(model => model.Price)</th>
+                <th>@Html.DisplayNameFor(model => model.Availability)</th>
+                <th>@Html.DisplayNameFor(model => model.ModifiedAt)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.FoodName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FoodDescription)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SubCategory.SubCategoryDesc)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Photo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Availability)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ModifiedAt)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.FoodId" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.FoodId" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.FoodId" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
