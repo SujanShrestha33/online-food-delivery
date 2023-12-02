@@ -64,3 +64,15 @@
 /OnlineFoodOrdering/bin/Debug/net6.0/OnlineFoodOrdering.exe
 /OnlineFoodOrdering/obj/Debug/net6.0/OnlineFoodOrdering.AssemblyInfoInputs.cache
 /OnlineFoodOrdering/obj/Release/net6.0/OnlineFoodOrdering.GeneratedMSBuildEditorConfig.editorconfig
+*.v2
+/.vs/ProjectEvaluation/onlinefoodordering.metadata.v7.bin
+/.vs/ProjectEvaluation/onlinefoodordering.projects.v7.bin
+/.vs/VSWorkspaceState.json
+/OnlineFoodOrdering/bin/Debug/net6.0/appsettings.json
+/OnlineFoodOrdering/obj/Debug/net6.0/OnlineFoodOrdering.csproj.CoreCompileInputs.cache
+/OnlineFoodOrdering/obj/Release/net6.0/OnlineFoodOrdering.AssemblyInfoInputs.cache
+/OnlineFoodOrdering/obj/Release/net6.0/OnlineFoodOrdering.assets.cache
+/OnlineFoodOrdering/obj/Release/net6.0/OnlineFoodOrdering.csproj.AssemblyReference.cache
+/OnlineFoodOrdering/obj/Release/net6.0/OnlineFoodOrdering.RazorAssemblyInfo.cache
+/OnlineFoodOrdering/obj/OnlineFoodOrdering.csproj.nuget.g.props
+/OnlineFoodOrdering/appsettings.json
