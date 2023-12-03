@@ -27,6 +27,7 @@ namespace OnlineFoodOrdering.Models.Entity
         [Required(ErrorMessage = "Status is required.")]
         public string Status { get; set; } // Pending, Canceled, InDelivery, Delivered
 
+        public string PaymentMethod { get; set; }
         public List<OrderItem> OrderItems { get; set; }
     }
 }

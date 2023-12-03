@@ -35,6 +35,8 @@ builder.Services.AddDefaultIdentity<ApplicationUsers>(options =>
 
 var app = builder.Build();
 
+SeedData.Initialize(app);
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

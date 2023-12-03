@@ -48,7 +48,7 @@ namespace OnlineFoodOrdering.Controllers
         // GET: Foods/Create
         public IActionResult Create()
         {
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "SubCategoryId", "SubCategoryDesc");
+            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "SubCategoryId", "SubCategoryName");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace OnlineFoodOrdering.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "SubCategoryId", "SubCategoryDesc", food.SubCategoryId);
+            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "SubCategoryId", "SubCategoryName", food.SubCategoryId);
             return View(food);
         }
 
@@ -82,7 +82,7 @@ namespace OnlineFoodOrdering.Controllers
             {
                 return NotFound();
             }
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "SubCategoryId", "SubCategoryDesc", food.SubCategoryId);
+            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "SubCategoryId", "SubCategoryName", food.SubCategoryId);
             return View(food);
         }
 
@@ -118,7 +118,7 @@ namespace OnlineFoodOrdering.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "SubCategoryId", "SubCategoryDesc", food.SubCategoryId);
+            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "SubCategoryId", "SubCategoryName", food.SubCategoryId);
             return View(food);
         }
 

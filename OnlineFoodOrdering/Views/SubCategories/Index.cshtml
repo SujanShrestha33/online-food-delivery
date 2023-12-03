@@ -5,44 +5,58 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container mt-5">
+    <h1>SubCategories</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SubCategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubCategoryDesc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubCategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubCategoryDesc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SubCategoryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SubCategoryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SubCategoryId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    @if (User.IsInRole("Admin"))
+    {
+        <!-- Admin view with table -->
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.SubCategoryName)</th>
+                    <th>@Html.DisplayNameFor(model => model.SubCategoryDesc)</th>
+                    <th>@Html.DisplayNameFor(model => model.Category.CategoryName)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.SubCategoryName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SubCategoryDesc)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Category.CategoryName)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.SubCategoryId" class="btn btn-primary btn-sm">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.SubCategoryId" class="btn btn-info btn-sm">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.SubCategoryId" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <!-- User view with cards -->
+        <div class="row gy-5 gx-5" style="gap: 20px !important;">
+            @foreach (var subCategory in Model)
+            {
+                <div class="card" style="width: 18rem;">
+                    <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="SubCategory Image" />
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => subCategory.SubCategoryName)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => subCategory.SubCategoryDesc)</p>
+                        <p class="card-text">@Html.DisplayFor(modelItem => subCategory.Category.CategoryName)</p>
+                        <a href="@Url.Action("Details", new { id = subCategory.SubCategoryId })" class="btn btn-primary" data-mdb-ripple-init>Details</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

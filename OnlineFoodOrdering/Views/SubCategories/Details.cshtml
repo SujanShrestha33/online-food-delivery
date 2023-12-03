@@ -5,33 +5,54 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="container mt-5">
+    <h1>Sub-Category Details</h1>
 
-<div>
-    <h4>SubCategories</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubCategoryName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubCategoryName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubCategoryDesc)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubCategoryDesc)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.CategoryName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.SubCategoryId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div>
+        <!-- Existing code for subcategories details -->
+
+        <h4>Food Items</h4>
+        <p>
+            <a asp-action="Create" asp-controller="Foods" asp-route-subCategoryId="@Model.SubCategoryId" class="btn btn-primary">Create New Food Item</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Food Item Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Availability</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var foodItem in Model.Foods)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => foodItem.FoodName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => foodItem.FoodDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => foodItem.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => foodItem.Availability)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Foods" asp-route-id="@foodItem.FoodId" class="btn btn-warning btn-sm">Edit</a>
+                            <a asp-action="Details" asp-controller="Foods" asp-route-id="@foodItem.FoodId" class="btn btn-info btn-sm">Details</a>
+                            <a asp-action="Delete" asp-controller="Foods" asp-route-id="@foodItem.FoodId" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <!-- Add buttons or links for Edit, Back to List actions as needed -->
+    </div>
 </div>

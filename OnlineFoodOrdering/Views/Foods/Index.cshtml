@@ -19,10 +19,10 @@
                 <th>@Html.DisplayNameFor(model => model.FoodName)</th>
                 <th>@Html.DisplayNameFor(model => model.FoodDescription)</th>
                 <th>@Html.DisplayNameFor(model => model.SubCategory)</th>
-                <th>@Html.DisplayNameFor(model => model.Photo)</th>
+                @* <th>@Html.DisplayNameFor(model => model.Photo)</th> *@
                 <th>@Html.DisplayNameFor(model => model.Price)</th>
                 <th>@Html.DisplayNameFor(model => model.Availability)</th>
-                <th>@Html.DisplayNameFor(model => model.ModifiedAt)</th>
+                @* <th>@Html.DisplayNameFor(model => model.ModifiedAt)</th> *@
                 <th>Actions</th>
             </tr>
         </thead>
@@ -32,11 +32,11 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.FoodName)</td>
                     <td>@Html.DisplayFor(modelItem => item.FoodDescription)</td>
-                    <td>@Html.DisplayFor(modelItem => item.SubCategory.SubCategoryDesc)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Photo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SubCategory.SubCategoryName)</td>
+                    @* <td>@Html.DisplayFor(modelItem => item.Photo)</td> *@
                     <td>@Html.DisplayFor(modelItem => item.Price)</td>
                     <td>@Html.DisplayFor(modelItem => item.Availability)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ModifiedAt)</td>
+                    @* <td>@Html.DisplayFor(modelItem => item.ModifiedAt)</td> *@
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.FoodId" class="btn btn-warning btn-sm">Edit</a>
                         <a asp-action="Details" asp-route-id="@item.FoodId" class="btn btn-info btn-sm">Details</a>
@@ -47,6 +47,25 @@
         </tbody>
     </table>
     }else{
-        <h1>Test</h1>
+        <div class="row gy-5 gx-5" style="gap: 20px !important;">
+            @foreach (var foods in Model)
+            {
+                <div class="card" style="width: 18rem;">
+                    <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="SubCategory Image" />
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => foods.FoodName)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => foods.FoodDescription)</p>
+                        <p class="card-text">@Html.DisplayFor(modelItem => foods.SubCategory.SubCategoryName)</p>
+                        <p class="card-text">@Html.DisplayFor(modelItem => foods.Price)</p>
+                        <form asp-controller="Order" asp-action="AddToCart" method="post">
+                            <input type="hidden" name="foodId" value="@foods.FoodId" />
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" name="quantity" value="1" min="1" />
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
     }
 </div>

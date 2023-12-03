@@ -29,20 +29,22 @@ namespace OnlineFoodOrdering.Controllers
         // GET: SubCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.SubCategories == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var subCategories = await _context.SubCategories
+            var subCategory = await _context.SubCategories
                 .Include(s => s.Category)
+                .Include(s => s.Foods)
                 .FirstOrDefaultAsync(m => m.SubCategoryId == id);
-            if (subCategories == null)
+
+            if (subCategory == null)
             {
                 return NotFound();
             }
 
-            return View(subCategories);
+            return View(subCategory);
         }
 
         public IActionResult Create(int? categoryId)

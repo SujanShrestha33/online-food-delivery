@@ -6,71 +6,92 @@
 }
 
 <div class="container mt-5">
+       @if (User.IsInRole("Admin"))
+    {
+
     <h1>Category Details</h1>
+        <div>
+            <h4>Categories</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CategoryName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CategoryName)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ModifiedDate)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ModifiedDate)
+                </dd>
+            </dl>
+        </div>
 
-    <div>
-        <h4>Categories</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CategoryName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.ModifiedDate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ModifiedDate)
-            </dd>
-        </dl>
-    </div>
-
-    <div>
-        <h4>Subcategories</h4>
-        <p>
-            <a asp-action="Create" asp-controller="SubCategories" asp-route-categoryId="@Model.CategoryId" class="btn btn-primary">Create New Subcategory</a>
-        </p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Subcategory Name</th>
-                    <th>Description</th>
-                    <!-- Add other subcategory details as needed -->
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var subcategory in Model.SubCategories)
-                {
+        <div>
+            <h4>Subcategories</h4>
+            <p>
+                <a asp-action="Create" asp-controller="SubCategories" asp-route-categoryId="@Model.CategoryId" class="btn btn-primary">Create New Subcategory</a>
+            </p>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => subcategory.SubCategoryName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => subcategory.SubCategoryDesc)
-                        </td>
+                        <th>Subcategory Name</th>
+                        <th>Description</th>
                         <!-- Add other subcategory details as needed -->
-                        <td>
-                            <a asp-action="Edit" asp-controller="SubCategories" asp-route-id="@subcategory.SubCategoryId" class="btn btn-warning btn-sm">Edit</a>
-                            <a asp-action="Details" asp-controller="SubCategories" asp-route-id="@subcategory.SubCategoryId" class="btn btn-info btn-sm">Details</a>
-                            <a asp-action="Delete" asp-controller="SubCategories" asp-route-id="@subcategory.SubCategoryId" class="btn btn-danger btn-sm">Delete</a>
-                        </td>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach (var subcategory in Model.SubCategories)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => subcategory.SubCategoryName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => subcategory.SubCategoryDesc)
+                            </td>
+                            <!-- Add other subcategory details as needed -->
+                            <td>
+                                <a asp-action="Edit" asp-controller="SubCategories" asp-route-id="@subcategory.SubCategoryId" class="btn btn-warning btn-sm">Edit</a>
+                                <a asp-action="Details" asp-controller="SubCategories" asp-route-id="@subcategory.SubCategoryId" class="btn btn-info btn-sm">Details</a>
+                                <a asp-action="Delete" asp-controller="SubCategories" asp-route-id="@subcategory.SubCategoryId" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model?.CategoryId" class="btn btn-primary">Edit</a>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model?.CategoryId" class="btn btn-primary">Edit</a>
         <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-    </div>
+        </div>
+    }
+    else
+    {
+        <h1>Sub-Categories</h1>
+        <div class="row gy-5 gx-5" style="gap: 20px !important;">
+            @foreach (var subCategory in Model.SubCategories)
+            {
+                <div class="card" style="width: 18rem;">
+                    <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="SubCategory Image" />
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => subCategory.SubCategoryName)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => subCategory.SubCategoryDesc)</p>
+                        <p class="card-text">@Html.DisplayFor(modelItem => subCategory.Category.CategoryName)</p>
+                        <a href="@Url.Action("Details", "SubCategories", new { id = subCategory.SubCategoryId })" class="btn btn-primary" data-mdb-ripple-init>Details</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
 </div>
