@@ -78,4 +78,11 @@ public class OrderController : Controller
             return View("Error", ex);
         }
     }
+
+    //[Authorize(Roles = "customer")]
+
+    //public async Task<IActionResult> PlaceORder()
+    //{
+    //    try
+    //}
 }

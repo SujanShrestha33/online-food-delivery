@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineFoodOrdering.Models.Entity
@@ -8,19 +10,21 @@ namespace OnlineFoodOrdering.Models.Entity
         [Key]
         public int FoodId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Food Name is required.")]
         public string FoodName { get; set; }
+
         public string FoodDescription { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "SubCategory is required.")]
         public int SubCategoryId { get; set; }
+
         [ForeignKey("SubCategoryId")]
         public SubCategories SubCategory { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Photo URL is required.")]
         public string Photo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Price is required.")]
         public double Price { get; set; }
 
         public string Availability { get; set; }

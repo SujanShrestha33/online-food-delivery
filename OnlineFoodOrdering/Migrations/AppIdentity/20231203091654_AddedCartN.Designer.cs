@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OnlineFoodOrdering.Models.Data;
+using OnlineFoodOrdering.Areas.Identity.Data;
 
 #nullable disable
 
-namespace OnlineFoodOrdering.Migrations
+namespace OnlineFoodOrdering.Migrations.AppIdentity
 {
-    [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AppIdentityContext))]
+    [Migration("20231203091654_AddedCartN")]
+    partial class AddedCartN
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,7 +251,7 @@ namespace OnlineFoodOrdering.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Cart");
                 });
 
             modelBuilder.Entity("OnlineFoodOrdering.Models.Entity.CartItem", b =>
@@ -275,7 +277,7 @@ namespace OnlineFoodOrdering.Migrations
 
                     b.HasIndex("FoodId");
 
-                    b.ToTable("CartItems");
+                    b.ToTable("CartItem");
                 });
 
             modelBuilder.Entity("OnlineFoodOrdering.Models.Entity.Categories", b =>
@@ -336,7 +338,7 @@ namespace OnlineFoodOrdering.Migrations
 
                     b.HasIndex("SubCategoryId");
 
-                    b.ToTable("Foods");
+                    b.ToTable("Food");
                 });
 
             modelBuilder.Entity("OnlineFoodOrdering.Models.Entity.Order", b =>
@@ -369,7 +371,7 @@ namespace OnlineFoodOrdering.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("OnlineFoodOrdering.Models.Entity.OrderItem", b =>
@@ -398,7 +400,7 @@ namespace OnlineFoodOrdering.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("OnlineFoodOrdering.Models.Entity.SubCategories", b =>
@@ -486,7 +488,7 @@ namespace OnlineFoodOrdering.Migrations
                     b.HasOne("OnlineFoodOrdering.Models.Entity.ApplicationUsers", "User")
                         .WithMany("Carts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -503,7 +505,7 @@ namespace OnlineFoodOrdering.Migrations
                     b.HasOne("OnlineFoodOrdering.Models.Entity.Food", "Food")
                         .WithMany()
                         .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cart");
@@ -527,7 +529,7 @@ namespace OnlineFoodOrdering.Migrations
                     b.HasOne("OnlineFoodOrdering.Models.Entity.ApplicationUsers", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -538,7 +540,7 @@ namespace OnlineFoodOrdering.Migrations
                     b.HasOne("OnlineFoodOrdering.Models.Entity.Food", "Food")
                         .WithMany("OrderItems")
                         .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("OnlineFoodOrdering.Models.Entity.Order", "Order")

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineFoodOrdering.Models.Entity
@@ -8,44 +10,23 @@ namespace OnlineFoodOrdering.Models.Entity
         [Key]
         public int OrderId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "User ID is required.")]
         public string UserId { get; set; }
+
         [ForeignKey("UserId")]
         public ApplicationUsers User { get; set; }
 
         public DateTime OrderDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Total Price is required.")]
         public double TotalPrice { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Delivery Address is required.")]
         public string DeliveryAddress { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Status is required.")]
         public string Status { get; set; } // Pending, Canceled, InDelivery, Delivered
 
-        public ICollection<OrderItem> OrderItems { get; set; }
-    }
-
-    public class OrderItem
-    {
-        [Key]
-        public int OrderItemId { get; set; }
-
-        [Required]
-        public int OrderId { get; set; } // This is the foreign key to the Order table
-        [ForeignKey("OrderId")]
-        public Order Order { get; set; } // Navigation property
-
-        [Required]
-        public int FoodId { get; set; }
-        [ForeignKey("FoodId")]
-        public Food Food { get; set; }
-
-        [Required]
-        public int Quantity { get; set; }
-
-        [Required]
-        public double Price { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

@@ -9,14 +9,14 @@ namespace OnlineFoodOrdering.Models.Entity
     {
         public Categories()
         {
-            SubCategories = new List<SubCategories>(); // Initialize the collection in the constructor
+            SubCategories = new List<SubCategories>();
         }
 
         [Key]
         public int CategoryId { get; set; }
 
         [DisplayName("Category Name")]
-        [Required(ErrorMessage = "Required")]
+        [Required(ErrorMessage = "Category Name is required.")]
         public string CategoryName { get; set; }
 
         [DisplayName("Category Description")]
