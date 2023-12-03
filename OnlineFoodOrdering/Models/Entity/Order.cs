@@ -29,5 +29,7 @@ namespace OnlineFoodOrdering.Models.Entity
 
         public string PaymentMethod { get; set; }
         public List<OrderItem> OrderItems { get; set; }
+
+        public string Feedback {  get; set; }
     }
 }

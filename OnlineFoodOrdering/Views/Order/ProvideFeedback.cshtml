@@ -1,0 +1,26 @@
+﻿@model OnlineFoodOrdering.Models.Entity.Order
+
+@{
+    ViewData["Title"] = "Provide Feedback";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h1>Provide Feedback</h1>
+    <p>Order Date: @Model.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</p>
+    <p>Total Price: @Model.TotalPrice</p>
+    <p>Delivery Address: @Model.DeliveryAddress</p>
+    <p>Status: @Model.Status</p>
+    <p>Payment Method: @Model.PaymentMethod</p>
+
+    <form asp-action="SubmitFeedback" method="post">
+        <input type="hidden" name="orderId" value="@Model.OrderId" />
+
+        <div class="form-group">
+            <label for="feedback">Feedback:</label>
+            <textarea class="form-control" name="feedback" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+    </form>
+</div>

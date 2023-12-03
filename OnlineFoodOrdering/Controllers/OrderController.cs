@@ -72,40 +72,100 @@ public class OrderController : Controller
     }
 
 
-    // Place an order
-    public async Task<IActionResult> PlaceOrder(string paymentMethod)
+    [HttpPost]
+    public async Task<IActionResult> PlaceOrder(string paymentMethod, string deliveryAddress)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var cart = _context.Carts
+                .Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Food)  // Include the associated Food entities
+                .FirstOrDefault(c => c.UserId == user.Id);
+
+            if (cart != null && cart.CartItems != null && cart.CartItems.Any())
+            {
+                var totalPrice = cart.CartItems.Sum(ci => ci.Food?.Price * ci.Quantity ?? 0);
+
+                var order = new Order
+                {
+                    UserId = user.Id,
+                    OrderDate = DateTime.Now,
+                    TotalPrice = totalPrice,
+                    DeliveryAddress = deliveryAddress,
+                    Status = "Pending",
+                    PaymentMethod = paymentMethod,
+                    OrderItems = cart.CartItems.Select(ci => new OrderItem
+                    {
+                        FoodId = ci.FoodId,
+                        Quantity = ci.Quantity,
+                        Price = ci.Food?.Price ?? 0
+                    }).ToList(),
+                };
+
+                _context.Orders.Add(order);
+
+                // Clear the cart after placing the order
+                _context.Carts.Remove(cart);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("ViewCart");
+            }
+        }
+        return View("ViewCart");
+    }
+    public async Task<IActionResult> OrderHistory()
     {
         var user = await _userManager.GetUserAsync(User);
-        var cart = _context.Carts.Include(c => c.CartItems).FirstOrDefault(c => c.UserId == user.Id);
+        var orders = _context.Orders
+            .Include(o => o.User)  // Ensure the related user information is loaded
+            .Where(o => o.UserId == user.Id)
+            .OrderByDescending(o => o.OrderDate)
+            .ToList();
 
-        if (cart != null && cart.CartItems.Any())
+        return View(orders);
+    }
+    [Authorize]
+    public async Task<IActionResult> ProvideFeedback(int orderId)
+    {
+        var order = await _context.Orders.FindAsync(orderId);
+
+        if (order != null && order.Status == "Delivered")
         {
-            var order = new Order
-            {
-                UserId = user.Id,
-                OrderDate = DateTime.Now,
-                TotalPrice = cart.CartItems.Sum(ci => ci.Food.Price * ci.Quantity),
-                PaymentMethod = paymentMethod,
-                OrderItems = cart.CartItems.Select(ci => new OrderItem
-                {
-                    FoodId = ci.FoodId,
-                    Quantity = ci.Quantity,
-                    Price = ci.Food.Price
-                }).ToList()
-            };
+            return View(order);
+        }
+        else
+        {
+            // Handle invalid or non-delivered order
+            return NotFound();
+        }
+    }
 
-            _context.Orders.Add(order);
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> SubmitFeedback(int orderId, string feedback)
+    {
+        var order = await _context.Orders.FindAsync(orderId);
 
-            // Clear the cart after placing the order
-            _context.Carts.Remove(cart);
-
+        if (order != null && order.Status == "Delivered")
+        {
+            order.Feedback = feedback;
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("ViewOrders");
+            // Redirect to order details or another appropriate page
+            return RedirectToAction("OrderDetails", new { id = orderId });
         }
-
-        return RedirectToAction("ViewCart");
+        else
+        {
+            // Handle invalid or non-delivered order
+            return NotFound();
+        }
     }
+
+
+
+
 
     // View user's orders
     public IActionResult ViewOrders()
@@ -116,14 +176,16 @@ public class OrderController : Controller
         return View(orders);
     }
 
-    // Manage order status (for admin)
     [Authorize(Roles = "Admin")]
     public IActionResult ManageOrderStatus()
     {
-        var orders = _context.Orders.ToList();
+        var orders = _context.Orders
+            .Include(o => o.User)  // Ensure the related user information is loaded
+            .ToList();
 
         return View(orders);
     }
+
 
     // Update order status (for admin)
     [Authorize(Roles = "Admin")]
@@ -187,6 +249,23 @@ public class OrderController : Controller
     public IActionResult ChoosePaymentMethod()
     {
         return View();
+    }
+
+    // Display order details
+    public IActionResult OrderDetails(int id)
+    {
+        // Retrieve the order from the database
+        var order = _context.Orders
+            .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.Food)
+            .FirstOrDefault(o => o.OrderId == id);
+
+        if (order == null)
+        {
+            return NotFound(); // Return a 404 Not Found if the order is not found
+        }
+
+        return View(order);
     }
 
 

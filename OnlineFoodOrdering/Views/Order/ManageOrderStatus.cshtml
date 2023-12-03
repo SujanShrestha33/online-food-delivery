@@ -1,0 +1,47 @@
+﻿@model List<OnlineFoodOrdering.Models.Entity.Order>
+
+@{
+    ViewData["Title"] = "Manage Order Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Manage Order Status</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Order Date</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderId</td>
+                <td>@order.User.FirstName @order.User.LastName</td>
+                <td>@order.OrderDate</td>
+                <td>@order.TotalPrice</td>
+                <td>@order.Status</td>
+                <td>
+                    <a asp-action="OrderDetails" asp-route-id="@order.OrderId" class="btn btn-info btn-sm">View Details</a>
+                    <form asp-action="UpdateOrderStatus" method="post" style="display: inline-block;">
+                        @Html.Hidden("orderId", order.OrderId)
+                        <select name="status">
+                            <option value="Pending" selected="@(order.Status == "Pending")">Pending</option>
+                            <option value="Processing" selected="@(order.Status == "Processing")">Processing</option>
+                            <option value="Shipped" selected="@(order.Status == "Shipped")">Shipped</option>
+                            <option value="Delivered" selected="@(order.Status == "Delivered")">Delivered</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

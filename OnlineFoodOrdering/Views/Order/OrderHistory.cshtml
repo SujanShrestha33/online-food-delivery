@@ -1,0 +1,47 @@
+﻿@model List<OnlineFoodOrdering.Models.Entity.Order>
+
+@{
+    ViewData["Title"] = "Order History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h1>Order History</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order Date</th>
+                <th>Total Price</th>
+                <th>Delivery Address</th>
+                <th>Status</th>
+                <th>Payment Method</th>
+                <th>Action</th>
+                <th>Feedback</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@order.TotalPrice</td>
+                    <td>@order.DeliveryAddress</td>
+                    <td>@order.Status</td>
+                    <td>@order.PaymentMethod</td>
+                    <td>
+                        <a asp-action="OrderDetails" asp-route-id="@order.OrderId">Details</a>
+                    </td>
+                    <td>
+                        <!-- Add this section to your OrderDetails.cshtml view -->
+                        @if (order.Status == "Delivered")
+                        {
+                            <a asp-action="ProvideFeedback" asp-route-orderId="@order.OrderId">Provide Feedback</a>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
