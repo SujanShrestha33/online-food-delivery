@@ -80,7 +80,7 @@ public class OrderController : Controller
             var user = await _userManager.GetUserAsync(User);
             var cart = _context.Carts
                 .Include(c => c.CartItems)
-                .ThenInclude(ci => ci.Food)  // Include the associated Food entities
+                .ThenInclude(ci => ci.Food)
                 .FirstOrDefault(c => c.UserId == user.Id);
 
             if (cart != null && cart.CartItems != null && cart.CartItems.Any())
@@ -110,11 +110,18 @@ public class OrderController : Controller
 
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("ViewCart");
+                // Display a success message using TempData
+                TempData["SuccessMessage"] = "Order placed successfully!";
+
+                // Redirect to the order history page
+                return RedirectToAction("OrderHistory");
             }
         }
-        return View("ViewCart");
+
+        // If the order placement fails, return to the view cart page
+        return RedirectToAction("ViewCart");
     }
+
     public async Task<IActionResult> OrderHistory()
     {
         var user = await _userManager.GetUserAsync(User);

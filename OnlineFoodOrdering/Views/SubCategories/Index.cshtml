@@ -43,17 +43,16 @@
     }
     else
     {
-        <!-- User view with cards -->
-        <div class="row gy-5 gx-5" style="gap: 20px !important;">
+        <div class="row gy-3" style="gap: 20px !important;">
             @foreach (var subCategory in Model)
             {
                 <div class="card" style="width: 18rem;">
-                    <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="SubCategory Image" />
-                    <div class="card-body">
+                    <img src="@Html.DisplayFor(modelItem => subCategory.ImageFile)" class="card-img-top img-fluid mt-2" alt="Category Image" style="height: 200px; object-fit: cover;" />
+                    <div class="card-body d-flex flex-column align-items-center">
                         <h5 class="card-title">@Html.DisplayFor(modelItem => subCategory.SubCategoryName)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => subCategory.SubCategoryDesc)</p>
                         <p class="card-text">@Html.DisplayFor(modelItem => subCategory.Category.CategoryName)</p>
-                        <a href="@Url.Action("Details", new { id = subCategory.SubCategoryId })" class="btn btn-primary" data-mdb-ripple-init>Details</a>
+                        <a href="@Url.Action("Details", new { id = subCategory.SubCategoryId })" class="btn mt-auto" style="background-color: #ff692a; font-weight:900; color: white;" data-mdb-ripple-init>Details</a>
                     </div>
                 </div>
             }

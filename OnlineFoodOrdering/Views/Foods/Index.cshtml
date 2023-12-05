@@ -5,64 +5,120 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .food-card {
+        width: 18rem;
+        margin-bottom: 20px;
+    }
+
+        .food-card img {
+            max-height: 250px;
+            object-fit: cover;
+        }
+
+        .food-card .card-body {
+            text-align: center;
+        }
+
+            .food-card .card-body h5 {
+                margin-bottom: 10px;
+            }
+
+            .food-card .card-body p {
+                margin-bottom: 15px;
+            }
+
+        .food-card form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .food-card .form-group {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+            .food-card .form-group label {
+                flex: 1;
+                margin-right: 10px;
+            }
+
+            .food-card .form-group input[type="number"] {
+                flex: 2;
+                padding: 5px;
+                text-align: center;
+            }
+
+        .food-card .btn-add-to-cart {
+            width: 100%;
+        }
+</style>
+
+
 <div class="container mt-5">
     <h1>Food Items</h1>
-    @if (User.IsInRole("Admin")){
+    @if (User.IsInRole("Admin"))
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </p>
 
-    <p>
-        <a asp-action="Create" class="btn btn-primary">Create New</a>
-    </p>
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.FoodName)</th>
-                <th>@Html.DisplayNameFor(model => model.FoodDescription)</th>
-                <th>@Html.DisplayNameFor(model => model.SubCategory)</th>
-                @* <th>@Html.DisplayNameFor(model => model.Photo)</th> *@
-                <th>@Html.DisplayNameFor(model => model.Price)</th>
-                <th>@Html.DisplayNameFor(model => model.Availability)</th>
-                @* <th>@Html.DisplayNameFor(model => model.ModifiedAt)</th> *@
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+        <table class="table table-striped">
+            <!-- Table Header -->
+            <thead>
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.FoodName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.FoodDescription)</td>
-                    <td>@Html.DisplayFor(modelItem => item.SubCategory.SubCategoryName)</td>
-                    @* <td>@Html.DisplayFor(modelItem => item.Photo)</td> *@
-                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Availability)</td>
-                    @* <td>@Html.DisplayFor(modelItem => item.ModifiedAt)</td> *@
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.FoodId" class="btn btn-warning btn-sm">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.FoodId" class="btn btn-info btn-sm">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.FoodId" class="btn btn-danger btn-sm">Delete</a>
-                    </td>
+                    <th>Food Name</th>
+                    <th>Food Description</th>
+                    <th>Sub Category</th>
+                    <th>Price</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    }else{
-        <div class="row gy-5 gx-5" style="gap: 20px !important;">
+            </thead>
+            <!-- Table Body -->
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.FoodName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FoodDescription)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SubCategory.SubCategoryName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Availability)</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.FoodId" class="btn btn-warning btn-sm">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.FoodId" class="btn btn-info btn-sm">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.FoodId" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-4 g-4">
             @foreach (var foods in Model)
             {
-                <div class="card" style="width: 18rem;">
-                    <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="SubCategory Image" />
-                    <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => foods.FoodName)</h5>
-                        <p class="card-text">@Html.DisplayFor(modelItem => foods.FoodDescription)</p>
-                        <p class="card-text">@Html.DisplayFor(modelItem => foods.SubCategory.SubCategoryName)</p>
-                        <p class="card-text">@Html.DisplayFor(modelItem => foods.Price)</p>
-                        <form asp-controller="Order" asp-action="AddToCart" method="post">
-                            <input type="hidden" name="foodId" value="@foods.FoodId" />
-                            <label for="quantity">Quantity:</label>
-                            <input type="number" name="quantity" value="1" min="1" />
-                            <button type="submit" class="btn btn-primary">Add to Cart</button>
-                        </form>
+                <div class="col">
+                    <div class="card food-card">
+                        <img src="@Url.Content(foods.Photo)" class="card-img-top img-fluid" alt="Food Image" />
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => foods.FoodName)</h5>
+                            <p class="card-text">@Html.DisplayFor(modelItem => foods.FoodDescription)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => foods.SubCategory.SubCategoryName) Price : @Html.DisplayFor(modelItem => foods.Price)</p>
+                            @* <p class="card-text">@Html.DisplayFor(modelItem => foods.Price)</p> *@
+                            <form asp-controller="Order" asp-action="AddToCart" method="post">
+                                <div class="form-group">
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="number" name="quantity" value="1" min="1" class="form-control" />
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             }

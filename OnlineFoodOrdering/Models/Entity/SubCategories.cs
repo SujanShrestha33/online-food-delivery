@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +22,13 @@ namespace OnlineFoodOrdering.Models.Entity
 
         [ForeignKey("CategoryId")]
         public Categories Category { get; set; }
+
+        [DisplayName("SubCategory Image")]
+        public string SubCategoryImage { get; set; }
+
+        [NotMapped] // This property will not be mapped to the database
+        [DisplayName("Upload SubCategory Image")]
+        public IFormFile ImageFile { get; set; }
 
         public ICollection<Food> Foods { get; set; }
 

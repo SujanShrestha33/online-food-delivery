@@ -61,22 +61,24 @@
     }
     else
     {
-        <div class="row gy-5 gx-5" style="gap: 20px !important;">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             @foreach (var foods in Model.Foods)
             {
-                <div class="card" style="width: 18rem;">
-                    <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="SubCategory Image" />
-                    <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => foods.FoodName)</h5>
-                        <p class="card-text">@Html.DisplayFor(modelItem => foods.FoodDescription)</p>
-                        <p class="card-text">@Html.DisplayFor(modelItem => foods.SubCategory.SubCategoryName)</p>
-                        <p class="card-text">@Html.DisplayFor(modelItem => foods.Price)</p>
-                        <form asp-controller="Order" asp-action="AddToCart" method="post">
-                            <input type="hidden" name="foodId" value="@foods.FoodId" />
-                            <label for="quantity">Quantity:</label>
-                            <input type="number" name="quantity" value="1" min="1" />
-                            <button type="submit" class="btn btn-primary">Add to Cart</button>
-                        </form>
+                <div class="col">
+                    <div class="card">
+                        <img src="@Url.Content(foods.Photo)" class="card-img-top img-fluid" alt="Food Image" style="max-height: 300px; object-fit: cover;" />
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => foods.FoodName)</h5>
+                            <p class="card-text">@Html.DisplayFor(modelItem => foods.FoodDescription)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => foods.SubCategory.SubCategoryName)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => foods.Price)</p>
+                            <form asp-controller="Order" asp-action="AddToCart" method="post">
+                                <input type="hidden" name="foodId" value="@foods.FoodId" />
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" value="1" min="1" />
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             }

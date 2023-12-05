@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container mt-5">
+<div class="container">
     <h1>Categories</h1>
     @if (User.IsInRole("Admin"))
     {
@@ -43,15 +43,15 @@
     }
     else
     {
-        <div class="row gy-5 gx-5" style="gap: 20px !important;">
+        <div class="row gy-3" style="gap: 20px !important;">
             @foreach (var category in Model)
             {
                 <div class="card" style="width: 18rem;">
-                    <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="Category Image" />
-                    <div class="card-body">
+                    <img src="@Html.DisplayFor(modelItem => category.CategoryImage)" class="card-img-top img-fluid mt-2" alt="Category Image" style="height: 200px; object-fit: cover;" />
+                    <div class="card-body d-flex flex-column align-items-center">
                         <h5 class="card-title">@Html.DisplayFor(modelItem => category.CategoryName)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => category.Description)</p>
-                        <a href="@Url.Action("Details", new { id = category.CategoryId })" class="btn btn-primary" data-mdb-ripple-init>Details</a>
+                        <a href="@Url.Action("Details", new { id = category.CategoryId })" class="btn mt-auto" style="background-color: #ff692a; font-weight:900; color: white;" data-mdb-ripple-init>Details</a>
                     </div>
                 </div>
             }

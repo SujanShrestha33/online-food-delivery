@@ -21,7 +21,7 @@ namespace OnlineFoodOrdering.Models.Entity
         [ForeignKey("SubCategoryId")]
         public SubCategories SubCategory { get; set; }
 
-        [Required(ErrorMessage = "Photo URL is required.")]
+     
         public string Photo { get; set; }
 
         [Required(ErrorMessage = "Price is required.")]

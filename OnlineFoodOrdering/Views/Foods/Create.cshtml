@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FoodName" class="control-label"></label>
@@ -25,13 +25,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="SubCategoryId" class="control-label"></label>
-                <select asp-for="SubCategoryId" class ="form-control" asp-items="ViewBag.SubCategoryId"></select>
+                <select asp-for="SubCategoryId" class="form-control" asp-items="ViewBag.SubCategoryId"></select>
+                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" class="form-control" />
+                <label asp-for="Photo" class="control-label">Food Photo</label>
+                <input type="file" name="photoFile" class="form-control" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
@@ -59,5 +61,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

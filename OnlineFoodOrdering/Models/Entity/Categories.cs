@@ -22,6 +22,8 @@ namespace OnlineFoodOrdering.Models.Entity
         [DisplayName("Category Description")]
         public string Description { get; set; }
 
+        [DisplayName("Category Image")]
+        public string CategoryImage { get; set; }
         public DateTime ModifiedDate { get; set; }
 
         public ICollection<SubCategories> SubCategories { get; set; }

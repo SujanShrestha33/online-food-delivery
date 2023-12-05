@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,13 @@ namespace OnlineFoodOrdering.Controllers
     public class FoodsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public FoodsController(AppDbContext context)
+        public FoodsController(AppDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
-
         // GET: Foods
         public async Task<IActionResult> Index()
         {
@@ -57,17 +59,34 @@ namespace OnlineFoodOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FoodId,FoodName,FoodDescription,SubCategoryId,Photo,Price,Availability,ModifiedAt")] Food food)
+        public async Task<IActionResult> Create(Food food, IFormFile photoFile)
         {
             if (ModelState.IsValid)
             {
+                // Handle image upload
+                if (photoFile != null && photoFile.Length > 0)
+                {
+                    //food.Photo = "/images/" + Guid.NewGuid() + "_" + photoFile.FileName;
+                    //var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", food.Photo);
+                    food.Photo = "/images/" + Guid.NewGuid() + "_" + photoFile.FileName;
+                    var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, food.Photo.TrimStart('/'));
+
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await photoFile.CopyToAsync(stream);
+                    }
+                }
+
                 _context.Add(food);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "SubCategoryId", "SubCategoryName", food.SubCategoryId);
             return View(food);
         }
+
+
 
         // GET: Foods/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -91,7 +110,7 @@ namespace OnlineFoodOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FoodId,FoodName,FoodDescription,SubCategoryId,Photo,Price,Availability,ModifiedAt")] Food food)
+        public async Task<IActionResult> Edit(int id, [Bind("FoodId,FoodName,FoodDescription,SubCategoryId,Photo,Price,Availability,ModifiedAt")] Food food, IFormFile photoFile)
         {
             if (id != food.FoodId)
             {
@@ -102,6 +121,21 @@ namespace OnlineFoodOrdering.Controllers
             {
                 try
                 {
+                    // Handle image upload
+                    if (photoFile != null)
+                    {
+                        //food.Photo = "/images/" + Guid.NewGuid() + "_" + imageFile.FileName;
+                        //var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", food.Photo);
+
+                        food.Photo = "/images/" + Guid.NewGuid() + "_" + photoFile.FileName;
+                        var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, food.Photo.TrimStart('/'));
+
+                        using (var stream = new FileStream(imagePath, FileMode.Create))
+                        {
+                            await photoFile.CopyToAsync(stream);
+                        }
+                    }
+
                     _context.Update(food);
                     await _context.SaveChangesAsync();
                 }
@@ -118,6 +152,7 @@ namespace OnlineFoodOrdering.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "SubCategoryId", "SubCategoryName", food.SubCategoryId);
             return View(food);
         }

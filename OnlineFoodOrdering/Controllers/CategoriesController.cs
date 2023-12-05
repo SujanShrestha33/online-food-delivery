@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace OnlineFoodOrdering.Controllers
     public class CategoriesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public CategoriesController(AppDbContext context)
+        public CategoriesController(AppDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Categories
@@ -56,11 +59,32 @@ namespace OnlineFoodOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,Description")] Categories categories)
+        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,Description,CategoryImage")] Categories categories, IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
-                categories.ModifiedDate = DateTime.Now; // Set ModifiedDate to current date and time
+                var webRootPath = _webHostEnvironment.WebRootPath;
+                Console.WriteLine("WebRootPath: " + webRootPath);
+
+                // Handle image upload
+                if (imageFile != null)
+                {
+                    categories.CategoryImage = "/images/" + Guid.NewGuid() + "_" + imageFile.FileName;
+                    var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, categories.CategoryImage.TrimStart('/'));
+
+
+                    //categories.CategoryImage = "/images/" + Guid.NewGuid() + "_" + imageFile.FileName;
+                    //var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", categories.CategoryImage);
+
+                    Console.WriteLine("ImagePath: " + imagePath);
+
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+                }
+
+                categories.ModifiedDate = DateTime.Now;
                 _context.Add(categories);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -89,7 +113,7 @@ namespace OnlineFoodOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,Description,ModifiedDate")] Categories categories)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,Description,CategoryImage,ModifiedDate")] Categories categories, IFormFile imageFile)
         {
             if (id != categories.CategoryId)
             {
@@ -100,7 +124,20 @@ namespace OnlineFoodOrdering.Controllers
             {
                 try
                 {
-                    categories.ModifiedDate = DateTime.Now; // Set ModifiedDate to current date and time
+                    // Handle image update
+                    if (imageFile != null)
+                    {
+                        categories.CategoryImage = "/images/" + Guid.NewGuid() + "_" + imageFile.FileName;
+                        var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, categories.CategoryImage.TrimStart('/'));
+
+
+                        using (var stream = new FileStream(imagePath, FileMode.Create))
+                        {
+                            await imageFile.CopyToAsync(stream);
+                        }
+                    }
+
+                    categories.ModifiedDate = DateTime.Now;
                     _context.Update(categories);
                     await _context.SaveChangesAsync();
                 }

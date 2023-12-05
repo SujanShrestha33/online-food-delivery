@@ -78,20 +78,23 @@
     }
     else
     {
-        <h1>Sub-Categories</h1>
-        <div class="row gy-5 gx-5" style="gap: 20px !important;">
-            @foreach (var subCategory in Model.SubCategories)
-            {
-                <div class="card" style="width: 18rem;">
-                    <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="SubCategory Image" />
-                    <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => subCategory.SubCategoryName)</h5>
-                        <p class="card-text">@Html.DisplayFor(modelItem => subCategory.SubCategoryDesc)</p>
-                        <p class="card-text">@Html.DisplayFor(modelItem => subCategory.Category.CategoryName)</p>
-                        <a href="@Url.Action("Details", "SubCategories", new { id = subCategory.SubCategoryId })" class="btn btn-primary" data-mdb-ripple-init>Details</a>
+        <div class="container mt-5">
+            <h1>Sub-Categories</h1>
+
+            <div class="row gy-5 gx-5" style="gap: 20px !important;">
+                @foreach (var subCategory in Model.SubCategories)
+                {
+                    <div class="card" style="width: 18rem;">
+                        <img src="@subCategory.SubCategoryImage" class="card-img-top mt-2" alt="SubCategory Image" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => subCategory.SubCategoryName)</h5>
+                            <p class="card-text">@Html.DisplayFor(modelItem => subCategory.SubCategoryDesc)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => subCategory.Category.CategoryName)</p>
+                            <a href="@Url.Action("Details", "SubCategories", new { id = subCategory.SubCategoryId })" class="btn mt-auto" style="background-color: #ff692a; font-weight:900; color: white;" data-mdb-ripple-init>Details</a>
+                        </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     }
 </div>

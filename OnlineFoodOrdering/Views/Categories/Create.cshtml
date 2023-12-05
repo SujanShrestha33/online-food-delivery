@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <form asp-action="Create">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
                 <div class="form-group">
@@ -26,9 +26,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ModifiedDate" class="control-label">Modified Date</label>
-                    <input asp-for="ModifiedDate" class="form-control" />
-                    <span asp-validation-for="ModifiedDate" class="text-danger"></span>
+                    <label asp-for="CategoryImage" class="control-label">Image</label>
+                    <input type="file" name="imageFile" class="form-control" />
                 </div>
 
                 <div class="form-group">

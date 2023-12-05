@@ -45,3 +45,14 @@
         </tbody>
     </table>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Check if there is a success message in TempData
+        var successMessage = "@TempData["SuccessMessage"]";
+
+        if (successMessage) {
+            // Display a pop-up with the success message
+            alert(successMessage);
+        }
+    });
+</script>
