@@ -5,40 +5,85 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CategoryId" />
+    .container-div {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 50px;
+    }
 
-            <div class="form-group">
-                <label asp-for="CategoryName" class="control-label">Category Name</label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
-            </div>
+    h1, h4 {
+        color: #ff692a;
+    }
 
-            <div class="form-group">
-                <label asp-for="Description" class="control-label">Description</label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+    label {
+        font-weight: bold;
+        color: #495057;
+    }
 
-            <div class="form-group">
-                <label asp-for="CategoryImage" class="control-label">Image</label>
-                <input type="file" name="imageFile" class="form-control" />
-            </div>
+    input[type="text"],
+    input[type="file"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    .btn-primary {
+        background-color: #ff692a;
+        border: 1px solid #ff692a;
+    }
+
+        .btn-primary:hover {
+            filter: brightness(90%);
+        }
+</style>
+
+<div class="container-div mt-5">
+    <h1>Edit</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="CategoryId" />
+
+                <div class="form-group">
+                    <label asp-for="CategoryName" class="control-label">Category Name</label>
+                    <input asp-for="CategoryName" class="form-control" />
+                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CategoryImage" class="control-label">Image</label>
+                    <input type="file" name="imageFile" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
 </div>
 
 @section Scripts {

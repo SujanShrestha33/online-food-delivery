@@ -5,91 +5,97 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Order Details</h1>
+<div class="container mt-4">
+    <h1>Order Details</h1>
 
-<div>
-    <h4>Order Information</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Order ID
-        </dt>
-        <dd class="col-sm-10">
-            @Model.OrderId
-        </dd>
-        <dt class="col-sm-2">
-            User ID
-        </dt>
-        <dd class="col-sm-10">
-            @Model.UserId
-        </dd>
-        <dt class="col-sm-2">
-            Order Date
-        </dt>
-        <dd class="col-sm-10">
-            @Model.OrderDate
-        </dd>
-        <dt class="col-sm-2">
-            Total Price
-        </dt>
-        <dd class="col-sm-10">
-            @Model.TotalPrice
-        </dd>
-        <dt class="col-sm-2">
-            Status
-        </dt>
-        <dd class="col-sm-10">
-            @Model.Status
-        </dd>
-        <dt class="col-sm-2">
-            Delivery Address
-        </dt>
-        <dd class="col-sm-10">
-            @Model.DeliveryAddress
-        </dd>
-        <dt class="col-sm-2">
-            Payment Method
-        </dt>
-        <dd class="col-sm-10">
-            @Model.PaymentMethod
-        </dd>
-        @if(Model.Feedback != null)
-        {
-            <dt class="col-sm-2">
-                Feedback
-            </dt>
-            <dd class="col-sm-10">
-                @Model.Feedback
-            </dd>
-        }
-       
-    </dl>
-</div>
+    <div class="order-section">
+        <h4>Order Information</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">Order ID</dt>
+            <dd class="col-sm-9">@Model.OrderId</dd>
 
-<div>
-    <h4>Order Items</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Food Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var orderItem in Model.OrderItems)
+            <dt class="col-sm-3">User ID</dt>
+            <dd class="col-sm-9">@Model.UserId</dd>
+
+            <dt class="col-sm-3">Order Date</dt>
+            <dd class="col-sm-9">@Model.OrderDate</dd>
+
+            <dt class="col-sm-3">Total Price</dt>
+            <dd class="col-sm-9">@Model.TotalPrice</dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.Status</dd>
+
+            <dt class="col-sm-3">Delivery Address</dt>
+            <dd class="col-sm-9">@Model.DeliveryAddress</dd>
+
+            <dt class="col-sm-3">Payment Method</dt>
+            <dd class="col-sm-9">@Model.PaymentMethod</dd>
+
+            @if (Model.Feedback != null)
             {
-                <tr>
-                    <td>@orderItem.Food.FoodName</td>
-                    <td>@orderItem.Quantity</td>
-                    <td>@orderItem.Price</td>
-                </tr>
+                <dt class="col-sm-3">Feedback</dt>
+                <dd class="col-sm-9">@Model.Feedback</dd>
             }
-        </tbody>
-    </table>
+        </dl>
+    </div>
+
+    <div class="order-section">
+        <h4>Order Items</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Food Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orderItem in Model.OrderItems)
+                {
+                    <tr>
+                        <td>@orderItem.Food.FoodName</td>
+                        <td>@orderItem.Quantity</td>
+                        <td>@orderItem.Price</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3">
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="ManageOrderStatus" class="btn btn-secondary">Back to List</a>
+        }
+        else
+        {
+            <a asp-action="OrderHistory" class="btn btn-secondary">Back to List</a>
+        }
+    </div>
 </div>
-@if (User.IsInRole("Admin")){
-<a asp-action="ManageOrderStatus" class="btn btn-secondary">Back to List</a>
-}else{
-<a asp-action="OrderHistory" class="btn btn-secondary">Back to List</a>
-}
+
+<style>
+    .order-section {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    h1, h4 {
+        color: #ff692a;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: 1px solid #6c757d;
+        color: #ffffff; /* Text color */
+    }
+
+        .btn-secondary:hover {
+            filter: brightness(90%);
+        }
+</style>

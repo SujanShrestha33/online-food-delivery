@@ -5,57 +5,55 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Food Details</h1>
 
-<div>
-    <h4>Food</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FoodName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FoodName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FoodDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FoodDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubCategory)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubCategory.SubCategoryDesc)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Availability)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Availability)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedAt)
-        </dd>
-    </dl>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>@Html.DisplayFor(model => model.FoodName)</h4>
+            <hr />
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card" style="max-height: 300px; overflow: hidden;">
+                        <img src="@Model.Photo" alt="Food Image" class="card-img-top img-fluid" />
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <h5>@Html.DisplayNameFor(model => model.FoodDescription)</h5>
+                    <p class="lead">@Html.DisplayFor(model => model.FoodDescription)</p>
+
+                    <dl class="row">
+                        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.FoodName)</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.FoodName)</dd>
+
+                        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.SubCategory)</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.SubCategory.SubCategoryDesc)</dd>
+
+                        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Photo)</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.Photo)</dd>
+
+                        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Price)</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.Price)</dd>
+
+                        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Availability)</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.Availability)</dd>
+
+                        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ModifiedAt)</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.ModifiedAt)</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.FoodId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <a asp-action="Edit" asp-route-id="@Model?.FoodId" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
 </div>

@@ -20,8 +20,13 @@
                 </tr>
             </thead>
             <tbody>
+                @{
+                    double grandTotal = 0; // Initialize grand total outside the loop
+                }
                 @foreach (var cartItem in Model.CartItems)
                 {
+                    var itemTotal = cartItem.Quantity * cartItem.Food.Price;
+                    grandTotal += itemTotal;
                     <tr>
                         <td>@cartItem.Food.FoodName</td>
                         <td>
@@ -40,7 +45,10 @@
                             </form>
                         </td>
                     </tr>
+                   @* @{ ViewBag.GrandTotal += cartItem.Quantity * cartItem.Food.Price; } *@
                 }
+                    <p>Grand Total : @grandTotal</p>
+                
             </tbody>
         </table>
         <div class="mt-4">

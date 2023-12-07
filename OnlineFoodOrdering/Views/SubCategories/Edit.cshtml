@@ -1,47 +1,95 @@
 ﻿@model OnlineFoodOrdering.Models.Entity.SubCategories
 
-@{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-<h1>Edit</h1>
+    .container-div {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 50px;
+    }
 
-<h4>SubCategories</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="SubCategoryId" />
-            <div class="form-group">
-                <label asp-for="SubCategoryName" class="control-label"></label>
-                <input asp-for="SubCategoryName" class="form-control" />
-                <span asp-validation-for="SubCategoryName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SubCategoryDesc" class="control-label"></label>
-                <input asp-for="SubCategoryDesc" class="form-control" />
-                <span asp-validation-for="SubCategoryDesc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label">Image</label>
-                <input type="file" asp-for="ImageFile" class="form-control" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    h1, h4 {
+        color: #ff692a;
+    }
+
+    label {
+        font-weight: bold;
+        color: #495057;
+    }
+
+    input[type="text"],
+    input[type="file"],
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: 1px solid #007bff;
+    }
+
+        .btn-primary:hover {
+            filter: brightness(90%);
+        }
+
+    .back-to-list {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        .back-to-list:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<div class="container-div mt-5">
+    <h1>Edit SubCategory</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="SubCategoryId" />
+                <div class="form-group">
+                    <label asp-for="SubCategoryName" class="control-label">SubCategory Name</label>
+                    <input asp-for="SubCategoryName" class="form-control" />
+                    <span asp-validation-for="SubCategoryName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SubCategoryDesc" class="control-label">Description</label>
+                    <input asp-for="SubCategoryDesc" class="form-control" />
+                    <span asp-validation-for="SubCategoryDesc" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label">Category</label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageFile" class="control-label">Image</label>
+                    <input type="file" asp-for="ImageFile" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index" asp-controller="Categories">Back to List</a>
+    <div>
+        <a asp-action="Index" asp-controller="Categories" class="back-to-list">Back to List</a>
+    </div>
 </div>
 
 @section Scripts {

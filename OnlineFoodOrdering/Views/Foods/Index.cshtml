@@ -1,4 +1,9 @@
-﻿@model IEnumerable<OnlineFoodOrdering.Models.Entity.Food>
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineFoodOrdering.Models.Entity
+@model IEnumerable<OnlineFoodOrdering.Models.Entity.Food>
+
+@inject SignInManager<ApplicationUsers> SignInManager
+@inject UserManager<ApplicationUsers> UserManager
 
 @{
     ViewData["Title"] = "Index";
@@ -57,7 +62,6 @@
         }
 </style>
 
-
 <div class="container mt-5">
     <h1>Food Items</h1>
     @if (User.IsInRole("Admin"))
@@ -66,37 +70,41 @@
             <a asp-action="Create" class="btn btn-primary">Create New</a>
         </p>
 
-        <table class="table table-striped">
-            <!-- Table Header -->
-            <thead>
-                <tr>
-                    <th>Food Name</th>
-                    <th>Food Description</th>
-                    <th>Sub Category</th>
-                    <th>Price</th>
-                    <th>Availability</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <!-- Table Body -->
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <!-- Table Header -->
+                <thead>
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.FoodName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.FoodDescription)</td>
-                        <td>@Html.DisplayFor(modelItem => item.SubCategory.SubCategoryName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Availability)</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.FoodId" class="btn btn-warning btn-sm">Edit</a>
-                            <a asp-action="Details" asp-route-id="@item.FoodId" class="btn btn-info btn-sm">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.FoodId" class="btn btn-danger btn-sm">Delete</a>
-                        </td>
+                        <th>Food Name</th>
+                        <th>Food Description</th>
+                        <th>Sub Category</th>
+                        <th>Price</th>
+                        <th>Availability</th>
+                        <th>Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <!-- Table Body -->
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.FoodName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FoodDescription)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SubCategory.SubCategoryName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Availability)</td>
+                            <td>
+                                <div class="btn-group" style="gap : 10px;" role="group">
+                                    <a asp-action="Edit" asp-route-id="@item.FoodId" class="btn btn-warning btn-sm">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@item.FoodId" class="btn btn-info btn-sm">Details</a>
+                                    <a asp-action="Delete" asp-route-id="@item.FoodId" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
     else
     {
@@ -111,13 +119,21 @@
                             <p class="card-text">@Html.DisplayFor(modelItem => foods.FoodDescription)</p>
                             <p class="card-text">@Html.DisplayFor(modelItem => foods.SubCategory.SubCategoryName) Price : @Html.DisplayFor(modelItem => foods.Price)</p>
                             @* <p class="card-text">@Html.DisplayFor(modelItem => foods.Price)</p> *@
+                            @* @if (User.IsInRole("customer")) *@
+                            @* { *@
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                
                             <form asp-controller="Order" asp-action="AddToCart" method="post">
-                                <div class="form-group">
-                                    <label for="quantity">Quantity:</label>
-                                    <input type="number" name="quantity" value="1" min="1" class="form-control" />
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-add-to-cart">Add to Cart</button>
-                            </form>
+                                    <div class="form-group">
+                                        <label for="quantity">Quantity:</label>
+                                        <input type="number" name="quantity" value="1" min="1" class="form-control" />
+                                    </div>
+                                    <input type="hidden" name="foodId" value="@foods.FoodId" /> <!-- Add this line -->
+                                    <button type="submit" class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</button>
+                                </form>
+                            }
+                            @* } *@
                         </div>
                     </div>
                 </div>

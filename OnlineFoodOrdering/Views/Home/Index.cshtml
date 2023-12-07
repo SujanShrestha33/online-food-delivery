@@ -1,4 +1,9 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineFoodOrdering.Models.Entity
+@inject SignInManager<ApplicationUsers> SignInManager
+@inject UserManager<ApplicationUsers> UserManager
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -18,12 +23,16 @@
                     quam nobis cupiditate dolores error id inventore corrupti quidem
                     omnis.
                 </p>
+                @if (User.IsInRole("customer"))
+                {
+                    
                 <div>
                     @* <button class="btn-main text-white rounded fw-bold" asp-controller="Foods" asp-action="Index">
                         Order Now
                     </button> *@
                     <a class="btn" style="background-color: #ff692a; font-weight:900; color: white;" asp-area="" asp-controller="Foods" asp-action="Index">Order Now</a>
                 </div>
+                }
             </div>
             <div class="col-md-6">
                 <img src="./delivery.svg" style="max-width: 100%" alt="" />

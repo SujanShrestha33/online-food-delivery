@@ -1,20 +1,63 @@
 ﻿@model OnlineFoodOrdering.Models.Entity.ApplicationUsers
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-<h2>Edit User</h2>
+    .container-div {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 50px;
+    }
 
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group">
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="PhoneNumber"></label>
-        <input asp-for="PhoneNumber" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
+    h2 {
+        color: #ff692a;
+    }
+
+    label {
+        font-weight: bold;
+        color: #495057;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
+
+    .btn-primary {
+        background-color: #ff692a;
+        border: 1px solid #ff692a;
+    }
+
+    .btn-primary:hover {
+        filter: brightness(90%);
+    }
+</style>
+
+<div class="container-div mt-5">
+    <h2>Edit User</h2>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>

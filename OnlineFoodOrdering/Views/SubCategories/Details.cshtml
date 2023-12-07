@@ -1,58 +1,128 @@
-﻿@model OnlineFoodOrdering.Models.Entity.SubCategories
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineFoodOrdering.Models.Entity
+@model OnlineFoodOrdering.Models.Entity.SubCategories
+
+@inject SignInManager<ApplicationUsers> SignInManager
+@inject UserManager<ApplicationUsers> UserManager
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .food-card {
+        width: 18rem;
+        margin-bottom: 20px;
+    }
+
+        .food-card img {
+            max-height: 250px;
+            object-fit: cover;
+        }
+
+        .food-card .card-body {
+            text-align: center;
+        }
+
+            .food-card .card-body h5 {
+                margin-bottom: 10px;
+            }
+
+            .food-card .card-body p {
+                margin-bottom: 15px;
+            }
+
+        .food-card form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .food-card .form-group {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+            .food-card .form-group label {
+                flex: 1;
+                margin-right: 10px;
+            }
+
+            .food-card .form-group input[type="number"] {
+                flex: 2;
+                padding: 5px;
+                text-align: center;
+            }
+
+        .food-card .btn-add-to-cart {
+            width: 100%;
+        }
+</style>
 
 <div class="container mt-5">
     @if (User.IsInRole("Admin"))
     {
-        
-    <h1>Sub-Category Details</h1>
-
     <div>
         <!-- Existing code for subcategories details -->
 
-        <h4>Food Items</h4>
-        <p>
-            <a asp-action="Create" asp-controller="Foods" asp-route-subCategoryId="@Model.SubCategoryId" class="btn btn-primary">Create New Food Item</a>
-        </p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Food Item Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Availability</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var foodItem in Model.Foods)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => foodItem.FoodName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => foodItem.FoodDescription)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => foodItem.Price)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => foodItem.Availability)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-controller="Foods" asp-route-id="@foodItem.FoodId" class="btn btn-warning btn-sm">Edit</a>
-                            <a asp-action="Details" asp-controller="Foods" asp-route-id="@foodItem.FoodId" class="btn btn-info btn-sm">Details</a>
-                            <a asp-action="Delete" asp-controller="Foods" asp-route-id="@foodItem.FoodId" class="btn btn-danger btn-sm">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            <div class="sub-category-details">
+                <h1>Sub-Category Details</h1>
+
+                <div>
+                    <div class="row">
+                        <div class="col-md-6">
+                    <img src="@Model.SubCategoryImage" alt="SubCategory Image" class="img-fluid" />
+                        </div>
+                        <div class="col-md-6">
+        <h4>@Html.DisplayFor(model => model.SubCategoryName)</h4>
+                    <p>@Html.DisplayFor(model => model.SubCategoryDesc)</p>
+        </div>
+
+                        </div>
+
+                    <h4>Food Items</h4>
+                    <p>
+                        <a asp-action="Create" asp-controller="Foods" asp-route-subCategoryId="@Model.SubCategoryId" class="btn btn-primary">Create New Food Item</a>
+                    </p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Food Item Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Availability</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var foodItem in Model.Foods)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => foodItem.FoodName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => foodItem.FoodDescription)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => foodItem.Price)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => foodItem.Availability)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-controller="Foods" asp-route-id="@foodItem.FoodId" class="btn btn-warning btn-sm">Edit</a>
+                                        <a asp-action="Details" asp-controller="Foods" asp-route-id="@foodItem.FoodId" class="btn btn-info btn-sm">Details</a>
+                                        <a asp-action="Delete" asp-controller="Foods" asp-route-id="@foodItem.FoodId" class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                </div>
     </div>
 
         <div>
@@ -61,23 +131,29 @@
     }
     else
     {
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
             @foreach (var foods in Model.Foods)
             {
                 <div class="col">
-                    <div class="card">
-                        <img src="@Url.Content(foods.Photo)" class="card-img-top img-fluid" alt="Food Image" style="max-height: 300px; object-fit: cover;" />
+                    <div class="card food-card">
+                        <img src="@Url.Content(foods.Photo)" class="card-img-top img-fluid" alt="Food Image" />
                         <div class="card-body">
                             <h5 class="card-title">@Html.DisplayFor(modelItem => foods.FoodName)</h5>
                             <p class="card-text">@Html.DisplayFor(modelItem => foods.FoodDescription)</p>
-                            <p class="card-text">@Html.DisplayFor(modelItem => foods.SubCategory.SubCategoryName)</p>
-                            <p class="card-text">@Html.DisplayFor(modelItem => foods.Price)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => foods.SubCategory.SubCategoryName) Price : @Html.DisplayFor(modelItem => foods.Price)</p>
+                  
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                
                             <form asp-controller="Order" asp-action="AddToCart" method="post">
-                                <input type="hidden" name="foodId" value="@foods.FoodId" />
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" name="quantity" value="1" min="1" />
-                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="number" name="quantity" value="1" min="1" class="form-control" />
+                                </div>
+                                <input type="hidden" name="foodId" value="@foods.FoodId" /> <!-- Add this line -->
+                                <button type="submit" class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</button>
                             </form>
+                            }
                         </div>
                     </div>
                 </div>

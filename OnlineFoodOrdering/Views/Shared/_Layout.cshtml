@@ -18,27 +18,25 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OnlineFoodOrdering</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                   @*      <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li> *@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Category</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Foods" asp-action="Index">Food Items</a>
                         </li>
-
-                        @if (SignInManager.IsSignedIn(User))
-                        {
+                    </ul>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <ul class="navbar-nav ml-auto">
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
@@ -47,7 +45,8 @@
                                 <li class="nav-item">
                                     <a class="nav-link" asp-area="" asp-controller="Order" asp-action="ManageOrderStatus">Manage Orders</a>
                                 </li>
-                            }else
+                            }
+                            else
                             {
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Order" asp-action="ViewCart">View Cart</a>
@@ -56,14 +55,14 @@
                                     <a class="nav-link" asp-controller="Order" asp-action="OrderHistory">Order History</a>
                                 </li>
                             }
-                        }
-
+                        </ul>
+                    }
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <partial name="_LoginPartial" />
                         </li>
                     </ul>
                 </div>
-                
             </div>
         </nav>
     </header>

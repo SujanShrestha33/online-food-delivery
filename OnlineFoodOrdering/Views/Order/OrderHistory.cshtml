@@ -30,29 +30,33 @@
                     <td>@order.Status</td>
                     <td>@order.PaymentMethod</td>
                     <td>
-                        <a asp-action="OrderDetails" asp-route-id="@order.OrderId">Details</a>
+                        <a asp-action="OrderDetails" asp-route-id="@order.OrderId" class="btn btn-info btn-sm">Details</a>
                     </td>
                     <td>
-                        <!-- Add this section to your OrderDetails.cshtml view -->
                         @if (order.Status == "Delivered")
                         {
-                            <a asp-action="ProvideFeedback" asp-route-orderId="@order.OrderId">Provide Feedback</a>
+                            <a asp-action="ProvideFeedback" asp-route-orderId="@order.OrderId" class="btn btn-success btn-sm">Provide Feedback</a>
                         }
-
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Check if there is a success message in TempData
         var successMessage = "@TempData["SuccessMessage"]";
 
         if (successMessage) {
-            // Display a pop-up with the success message
-            alert(successMessage);
+            // Display a Bootstrap alert with the success message
+            var alertHtml = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    ${successMessage}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                 </div>`;
+
+            // Append the alert to the container
+            document.body.insertAdjacentHTML("beforeend", alertHtml);
         }
     });
 </script>
