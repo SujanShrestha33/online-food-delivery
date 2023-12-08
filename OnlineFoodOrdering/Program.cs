@@ -33,6 +33,8 @@ builder.Services.AddDefaultIdentity<ApplicationUsers>(options =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppIdentityContext>();
 
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
 var app = builder.Build();
 
 SeedData.Initialize(app);

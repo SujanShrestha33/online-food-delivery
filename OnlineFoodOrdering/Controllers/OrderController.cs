@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using OnlineFoodOrdering.Models.Data;
 using OnlineFoodOrdering.Models.Entity;
+using Stripe;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,11 +15,14 @@ public class OrderController : Controller
 {
     private readonly AppDbContext _context;
     private readonly UserManager<ApplicationUsers> _userManager;
+    private readonly StripeSettings _stripeSettings;
 
-    public OrderController(AppDbContext context, UserManager<ApplicationUsers> userManager)
+    // Inject StripeSettings in the constructor
+    public OrderController(AppDbContext context, UserManager<ApplicationUsers> userManager, IOptions<StripeSettings> stripeSettings)
     {
         _context = context;
         _userManager = userManager;
+        _stripeSettings = stripeSettings.Value;
     }
 
     // Display user's cart
@@ -29,47 +34,6 @@ public class OrderController : Controller
         return View(cart);
     }
 
-
-    // Add item to the cart
-    [HttpPost]
-    public async Task<IActionResult> AddToCart(int foodId, int quantity)
-    {
-        var user = await _userManager.GetUserAsync(User);
-
-        // Retrieve or create a cart for the user
-        var cart = _context.Carts
-            .Include(c => c.CartItems)
-            .ThenInclude(ci => ci.Food)
-            .FirstOrDefault(c => c.UserId == user.Id);
-
-        if (cart == null)
-        {
-            cart = new Cart { UserId = user.Id, CartItems = new List<CartItem>() };
-            _context.Carts.Add(cart);
-        }
-
-        var food = await _context.Foods.FindAsync(foodId);
-
-        if (food != null)
-        {
-            var cartItem = cart.CartItems?.FirstOrDefault(ci => ci.FoodId == foodId);
-
-            if (cartItem != null)
-            {
-                // Update quantity if the item is already in the cart
-                cartItem.Quantity += quantity;
-            }
-            else
-            {
-                // Add a new item to the cart
-                cart.CartItems.Add(new CartItem { Food = food, Quantity = quantity });
-            }
-
-            await _context.SaveChangesAsync();
-        }
-
-        return RedirectToAction("ViewCart");
-    }
 
 
     [HttpPost]
@@ -103,6 +67,32 @@ public class OrderController : Controller
                     }).ToList(),
                 };
 
+                if (paymentMethod.Equals("stripe", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Set up Stripe API key
+                    StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
+
+                    // Create a PaymentIntent with return_url
+                    var options = new PaymentIntentCreateOptions
+                    {
+                        Amount = (long)totalPrice * 100, // Amount in cents
+                        Currency = "usd",
+                        PaymentMethod = "pm_card_visa", // You should obtain a PaymentMethod ID using Stripe.js
+                        ConfirmationMethod = "manual",
+                        Confirm = true,
+                        ReturnUrl = Url.Action("OrderHistory", "Order", null, Request.Scheme), // Redirect to OrderHistory
+                    };
+
+                    var service = new PaymentIntentService();
+                    var paymentIntent = service.Create(options);
+
+                    // Update order with Stripe PaymentIntent ID
+                    order.StripePaymentIntentId = paymentIntent.Id;
+
+                    // Set the order status to "Pending Payment" initially
+                    order.Status = "Pending";
+                }
+
                 _context.Orders.Add(order);
 
                 // Clear the cart after placing the order
@@ -121,7 +111,6 @@ public class OrderController : Controller
         // If the order placement fails, return to the view cart page
         return RedirectToAction("ViewCart");
     }
-
     public async Task<IActionResult> OrderHistory()
     {
         var user = await _userManager.GetUserAsync(User);

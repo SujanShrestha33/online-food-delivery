@@ -38,7 +38,7 @@
     </table>
 
     <!-- Form for delivery location and payment method -->
-    <form asp-controller="Order" asp-action="PlaceOrder" method="post">
+    <form id="payment-form" asp-controller="Order" asp-action="PlaceOrder" method="post">
         <!-- Add a hidden field to pass the cart ID to the server -->
         <input type="hidden" name="cartId" value="@Model.CartId" />
 
@@ -48,14 +48,69 @@
         </div>
 
         <h2>Payment Methods</h2>
+
         <!-- Add your payment method options here -->
 
         <div class="form-check">
             <input type="radio" name="paymentMethod" value="esewa" class="form-check-input" id="esewaRadio" required />
             <label class="form-check-label" for="esewaRadio">Pay via eSewa</label>
         </div>
-        <!-- Add more payment method options as needed -->
+
+        <!-- Add the Stripe payment method option -->
+        <div class="form-check">
+            <input type="radio" name="paymentMethod" value="stripe" class="form-check-input" id="stripeRadio" required />
+            <label class="form-check-label" for="stripeRadio">Pay with Credit Card (Stripe)</label>
+        </div>
+
+        <!-- Include the Stripe payment element container -->
+        <div id="card-element"></div>
+
+        <!-- Display potential error messages -->
+        <div id="card-errors" role="alert"></div>
 
         <button type="submit" class="btn btn-success mt-3">Proceed to Payment</button>
     </form>
+
+    <!-- Add the following script to handle Stripe.js functionality -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('pk_test_51OL0NCJOQ7GO3LnRuPjsC6QYGynyYxAHYSjzlegyr6mGxIuGoJnyKSRZOBlX5KBp3N2oF6TTYEvCXqsUMvUH3kzX00QdcGOeKd'); // Replace with your actual Stripe public key
+
+        // Create an instance of the card Element
+        var elements = stripe.elements();
+        var card = elements.create('card');
+
+        // Add an instance of the card Element into the `card-element` div
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element
+        card.addEventListener('change', function (event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Handle form submission
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+            }).then(function (result) {
+                if (result.error) {
+                    // Inform the user if there was an error
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Proceed to form submission
+                    form.submit();
+                }
+            });
+        });
+    </script>
 </div>
