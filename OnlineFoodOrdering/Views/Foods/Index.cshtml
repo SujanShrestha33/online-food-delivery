@@ -132,7 +132,7 @@
                                     <input type="hidden" name="foodId" value="@foods.FoodId" /> <!-- Add this line -->
                                     <button type="submit" class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</button>
                                 </form> *@
-                                <button class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</button>
+                                <a asp-action="Details" asp-route-id="@foods.FoodId" class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</a>
 
                             }
                           

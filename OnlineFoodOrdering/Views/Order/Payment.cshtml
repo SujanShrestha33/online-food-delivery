@@ -1,0 +1,61 @@
+﻿@model OnlineFoodOrdering.Models.Entity.Cart
+
+@{
+    ViewData["Title"] = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h1>Payment Details</h1>
+
+    <!-- Display order details (total items, total quantity, total price) -->
+    <p>Total Items: @Model.CartItems.Count</p>
+    <p>Total Quantity: @Model.CartItems.Sum(ci => ci.Quantity)</p>
+    <p>Total Price: @(Model.CartItems.Sum(ci => ci.Quantity * ci.Food.Price))</p>
+
+    <!-- Display a table with details of each item in the cart -->
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Food Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cartItem in Model.CartItems)
+            {
+                var itemTotal = cartItem.Quantity * cartItem.Food.Price;
+                <tr>
+                    <td>@cartItem.Food.FoodName</td>
+                    <td>@cartItem.Quantity</td>
+                    <td>@cartItem.Food.Price</td>
+                    <td>@itemTotal</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Form for delivery location and payment method -->
+    <form asp-controller="Order" asp-action="PlaceOrder" method="post">
+        <!-- Add a hidden field to pass the cart ID to the server -->
+        <input type="hidden" name="cartId" value="@Model.CartId" />
+
+        <div class="form-group mt-3">
+            <label for="deliveryAddress">Delivery Address:</label>
+            <input type="text" name="deliveryAddress" class="form-control" required />
+        </div>
+
+        <h2>Payment Methods</h2>
+        <!-- Add your payment method options here -->
+
+        <div class="form-check">
+            <input type="radio" name="paymentMethod" value="esewa" class="form-check-input" id="esewaRadio" required />
+            <label class="form-check-label" for="esewaRadio">Pay via eSewa</label>
+        </div>
+        <!-- Add more payment method options as needed -->
+
+        <button type="submit" class="btn btn-success mt-3">Proceed to Payment</button>
+    </form>
+</div>

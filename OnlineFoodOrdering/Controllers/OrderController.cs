@@ -275,5 +275,21 @@ public class OrderController : Controller
         return View(order);
     }
 
+    public IActionResult Payment(int cartId)
+    {
+        var cart = _context.Carts
+            .Include(c => c.CartItems)
+            .ThenInclude(ci => ci.Food)
+            .FirstOrDefault(c => c.CartId == cartId);
+
+        if (cart == null || cart.CartItems == null || !cart.CartItems.Any())
+        {
+            // Handle empty cart or invalid cart ID
+            return RedirectToAction("ViewCart");
+        }
+
+        return View("Payment", cart);
+    }
+
 
 }

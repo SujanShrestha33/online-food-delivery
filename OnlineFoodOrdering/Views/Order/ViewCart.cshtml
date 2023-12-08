@@ -5,6 +5,46 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<!-- Add this script tag to include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".quantity-control").on("click", function () {
+            var action = $(this).data("action");
+            var inputField = $(this).siblings(".quantity-input");
+            var currentValue = parseInt(inputField.val());
+
+            if (action === "increment") {
+                inputField.val(currentValue + 1);
+            } else if (action === "decrement" && currentValue > 1) {
+                inputField.val(currentValue - 1);
+            }
+
+            // Send AJAX request to update quantity on the server
+            updateCartItemQuantity(inputField);
+        });
+
+        function updateCartItemQuantity(inputField) {
+            var form = inputField.closest("form");
+            var formData = form.serialize();
+
+            $.ajax({
+                type: "POST",
+                url: form.attr("action"),
+                data: formData,
+                success: function () {
+                    // Optionally, you can update the total and grand total on the page
+                },
+                error: function (error) {
+                    console.error("Error updating quantity: ", error);
+                }
+            });
+        }
+    });
+</script>
+
 <div class="container mt-5">
     <h1>Your Cart</h1>
     @if (Model != null && Model.CartItems.Any())
@@ -32,8 +72,10 @@
                         <td>
                             <form asp-controller="Order" asp-action="UpdateCartItemQuantity" method="post" class="d-flex align-items-center">
                                 <input type="hidden" name="foodId" value="@cartItem.FoodId" />
-                                <input type="number" name="quantity" value="@cartItem.Quantity" min="1" class="form-control" />
-                                <button type="submit" class="btn btn-sm btn-primary ms-2">Update</button>
+                                <button type="button" class="btn btn-sm btn-secondary quantity-control" data-action="decrement">-</button>
+                                <input type="number" name="quantity" value="@cartItem.Quantity" min="1" class="form-control quantity-input" />
+                                <button type="button" class="btn btn-sm btn-secondary quantity-control" data-action="increment">+</button>
+                                <!-- Remove the 'Update' button -->
                             </form>
                         </td>
                         <td>@cartItem.Food.Price</td>
@@ -45,10 +87,8 @@
                             </form>
                         </td>
                     </tr>
-                   @* @{ ViewBag.GrandTotal += cartItem.Quantity * cartItem.Food.Price; } *@
                 }
-                    <p>Grand Total : @grandTotal</p>
-                
+                <p>Grand Total : @grandTotal</p>
             </tbody>
         </table>
         <div class="mt-4">
@@ -79,6 +119,10 @@
 
                 <button type="submit" class="btn btn-success mt-3">Place Order</button>
             </form>
+            <div class="mt-4">
+                <!-- Add a button to proceed to the payment page -->
+                <a asp-controller="Order" asp-action="Payment" asp-route-cartId="@Model.CartId" class="btn btn-primary">Proceed to Payment</a>
+            </div>
         </div>
     }
     else
