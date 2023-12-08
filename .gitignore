@@ -76,3 +76,4 @@
 /OnlineFoodOrdering/obj/Release/net6.0/OnlineFoodOrdering.RazorAssemblyInfo.cache
 /OnlineFoodOrdering/obj/OnlineFoodOrdering.csproj.nuget.g.props
 /OnlineFoodOrdering/appsettings.json
+*.dll
