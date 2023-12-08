@@ -1,0 +1,68 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Manage your account</h1>
+
+    <div>
+        <h2>Change your account settings</h2>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        Account Navigation
+                    </div>
+                    <div class="card-body">
+                        <partial name="_ManageNav" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    h1, h2 {
+        color: #ff692a;
+    }
+
+    hr {
+        border-top: 2px solid #ff692a;
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .card-header {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+</style>

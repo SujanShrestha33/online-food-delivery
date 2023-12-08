@@ -1,0 +1,6 @@
+﻿@media (max-width: 767px) {
+    .card-cont{
+        justify-content : center;
+        align-content : center;
+    }
+}

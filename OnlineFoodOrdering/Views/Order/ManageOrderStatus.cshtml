@@ -8,43 +8,77 @@
 <div class="container mt-4">
     <h1>Manage Order Status</h1>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>User</th>
-                <th>Order Date</th>
-                <th>Total Price</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in Model)
-            {
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
                 <tr>
-                    <td>@order.OrderId</td>
-                    <td>@($"{order.User.FirstName} {order.User.LastName}")</td>
-                    <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                    <td>@order.TotalPrice</td>
-                    <td>@order.Status</td>
-                    <td>
-                        <div class="d-flex justify-content-between">
-                            <a asp-action="OrderDetails" asp-route-id="@order.OrderId" class="btn btn-info btn-sm">View Details</a>
-                            <form asp-action="UpdateOrderStatus" method="post" class="d-flex align-items-center">
-                                @Html.Hidden("orderId", order.OrderId)
-                                <select name="status" class="form-select form-select-sm me-2">
-                                    <option value="Pending" selected="@(order.Status == "Pending")">Pending</option>
-                                    <option value="Processing" selected="@(order.Status == "Processing")">Processing</option>
-                                    <option value="Shipped" selected="@(order.Status == "Shipped")">Shipped</option>
-                                    <option value="Delivered" selected="@(order.Status == "Delivered")">Delivered</option>
-                                </select>
-                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                            </form>
-                        </div>
-                    </td>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Order Date</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.OrderId</td>
+                        <td>@($"{order.User.FirstName} {order.User.LastName}")</td>
+                        <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@order.TotalPrice</td>
+                        <td>@order.Status</td>
+                        <td>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a asp-action="OrderDetails" asp-route-id="@order.OrderId" class="btn btn-info btn-sm">View Details</a>
+                                <form asp-action="UpdateOrderStatus" method="post" class="d-flex align-items-center">
+                                    @Html.Hidden("orderId", order.OrderId)
+                                    <select name="status" class="form-select form-select-sm me-2">
+                                        <option value="Pending" selected="@(order.Status == "Pending")">Pending</option>
+                                        <option value="Processing" selected="@(order.Status == "Processing")">Processing</option>
+                                        <option value="Shipped" selected="@(order.Status == "Shipped")">Shipped</option>
+                                        <option value="Delivered" selected="@(order.Status == "Delivered")">Delivered</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    h1 {
+        color: #ff692a;
+        margin-bottom: 20px;
+    }
+
+    .table {
+        margin-top: 10px;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
+    .btn-info, .btn-primary {
+        margin-right: 5px;
+    }
+
+        .btn-info:hover, .btn-primary:hover {
+            filter: brightness(90%);
+        }
+
+    .form-select {
+        width: 120px;
+    }
+</style>

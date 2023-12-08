@@ -110,7 +110,7 @@ namespace OnlineFoodOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FoodId,FoodName,FoodDescription,SubCategoryId,Photo,Price,Availability,ModifiedAt")] Food food, IFormFile photoFile)
+        public async Task<IActionResult> Edit(int id, [Bind("FoodId,FoodName,FoodDescription,SubCategoryId,Photo,Price,Availability")] Food food, IFormFile photoFile)
         {
             if (id != food.FoodId)
             {
@@ -135,7 +135,7 @@ namespace OnlineFoodOrdering.Controllers
                             await photoFile.CopyToAsync(stream);
                         }
                     }
-
+                    food.ModifiedAt = DateTime.Now;
                     _context.Update(food);
                     await _context.SaveChangesAsync();
                 }

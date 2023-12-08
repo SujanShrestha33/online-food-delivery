@@ -124,16 +124,18 @@
                             @if (SignInManager.IsSignedIn(User))
                             {
                                 
-                            <form asp-controller="Order" asp-action="AddToCart" method="post">
+                           @*  <form asp-controller="Order" asp-action="AddToCart" method="post">
                                     <div class="form-group">
                                         <label for="quantity">Quantity:</label>
                                         <input type="number" name="quantity" value="1" min="1" class="form-control" />
                                     </div>
                                     <input type="hidden" name="foodId" value="@foods.FoodId" /> <!-- Add this line -->
                                     <button type="submit" class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</button>
-                                </form>
+                                </form> *@
+                                <button class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</button>
+
                             }
-                            @* } *@
+                          
                         </div>
                     </div>
                 </div>

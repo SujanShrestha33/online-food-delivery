@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<OnlineFoodOrdering.Models.Entity.ApplicationUsers>
 
-
 <div class="container mt-4">
     <h2>User Management</h2>
     <div class="table-responsive">
@@ -23,8 +22,10 @@
                         <td>@user.LastName</td>
                         <td>@user.PhoneNumber</td>
                         <td>
+                            <div class="btn-group" style="gap : 10px;" role="group">
                             <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", new { id = user.Id })">Edit</a>
                             <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", new { id = user.Id })">Delete</a>
+                            </div>
                         </td>
                     </tr>
                 }
@@ -32,3 +33,31 @@
         </table>
     </div>
 </div>
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    h2 {
+        color: #ff692a;
+        margin-bottom: 20px;
+    }
+
+    .table {
+        margin-top: 10px;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
+    .btn-primary, .btn-danger {
+        margin-right: 5px;
+    }
+
+        .btn-primary:hover, .btn-danger:hover {
+            filter: brightness(90%);
+        }
+</style>

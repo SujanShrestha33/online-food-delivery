@@ -5,6 +5,62 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    h1, h4, h5 {
+        color: #ff692a;
+    }
+
+    hr {
+        border-top: 2px solid #ff692a;
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        max-height: 300px;
+        overflow: hidden;
+    }
+
+        .card img {
+            object-fit: cover;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+    .lead {
+        font-size: 1.25rem;
+        margin-bottom: 20px;
+    }
+
+    .dl-horizontal dt {
+        white-space: nowrap;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 0;
+    }
+
+    .btn-primary {
+        background-color: #ff692a;
+        border: 1px solid #ff692a;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: 1px solid #6c757d;
+        color: #ffffff;
+    }
+
+        .btn-primary:hover,
+        .btn-secondary:hover {
+            filter: brightness(90%);
+        }
+</style>
+
 <div class="container mt-4">
     <h1 class="mb-4">Food Details</h1>
 
@@ -15,7 +71,7 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    <div class="card" style="max-height: 300px; overflow: hidden;">
+                    <div class="card">
                         <img src="@Model.Photo" alt="Food Image" class="card-img-top img-fluid" />
                     </div>
                 </div>
@@ -24,15 +80,15 @@
                     <h5>@Html.DisplayNameFor(model => model.FoodDescription)</h5>
                     <p class="lead">@Html.DisplayFor(model => model.FoodDescription)</p>
 
-                    <dl class="row">
+                    <dl class="row dl-horizontal">
                         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.FoodName)</dt>
                         <dd class="col-sm-10">@Html.DisplayFor(model => model.FoodName)</dd>
 
                         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.SubCategory)</dt>
                         <dd class="col-sm-10">@Html.DisplayFor(model => model.SubCategory.SubCategoryDesc)</dd>
 
-                        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Photo)</dt>
-                        <dd class="col-sm-10">@Html.DisplayFor(model => model.Photo)</dd>
+                        @* <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Photo)</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.Photo)</dd> *@
 
                         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Price)</dt>
                         <dd class="col-sm-10">@Html.DisplayFor(model => model.Price)</dd>
@@ -40,8 +96,8 @@
                         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Availability)</dt>
                         <dd class="col-sm-10">@Html.DisplayFor(model => model.Availability)</dd>
 
-                        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ModifiedAt)</dt>
-                        <dd class="col-sm-10">@Html.DisplayFor(model => model.ModifiedAt)</dd>
+              @*           <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ModifiedAt)</dt>
+                        <dd class="col-sm-10">@Html.DisplayFor(model => model.ModifiedAt)</dd> *@
                     </dl>
                 </div>
             </div>
