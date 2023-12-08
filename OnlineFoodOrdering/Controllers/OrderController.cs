@@ -281,4 +281,47 @@ public class OrderController : Controller
     }
 
 
+
+    // Add item to the cart
+    [HttpPost]
+    public async Task<IActionResult> AddToCart(int foodId, int quantity)
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        // Retrieve or create a cart for the user
+        var cart = _context.Carts
+            .Include(c => c.CartItems)
+            .ThenInclude(ci => ci.Food)
+            .FirstOrDefault(c => c.UserId == user.Id);
+
+        if (cart == null)
+        {
+            cart = new Cart { UserId = user.Id, CartItems = new List<CartItem>() };
+            _context.Carts.Add(cart);
+        }
+
+        var food = await _context.Foods.FindAsync(foodId);
+
+        if (food != null)
+        {
+            var cartItem = cart.CartItems?.FirstOrDefault(ci => ci.FoodId == foodId);
+
+            if (cartItem != null)
+            {
+                // Update quantity if the item is already in the cart
+                cartItem.Quantity += quantity;
+            }
+            else
+            {
+                // Add a new item to the cart
+                cart.CartItems.Add(new CartItem { Food = food, Quantity = quantity });
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToAction("ViewCart");
+    }
+
+
 }

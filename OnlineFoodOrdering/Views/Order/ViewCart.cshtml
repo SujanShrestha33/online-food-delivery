@@ -5,9 +5,43 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <!-- Add this script tag to include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<style>
+    /* Add custom styles for better presentation */
+/*     .container {
+        max-width: 800px;
+    }
+ */
+    h1 {
+        text-align: center;
+        color: #ff692a;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    th, td {
+        text-align: center;
+    }
+
+    .quantity-control {
+        padding: 5px 10px;
+    }
+
+    .quantity-input {
+        width: 50px;
+        text-align: center;
+    }
+
+    .proceed-to-payment {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
 
 <script>
     $(document).ready(function () {
@@ -50,12 +84,11 @@
     @if (Model != null && Model.CartItems.Any())
     {
         <table class="table table-bordered">
-            <thead>
+            <thead class="thead-dark">
                 <tr>
                     <th>Food Name</th>
                     <th>Quantity</th>
                     <th>Price</th>
-                    <th>Total</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -69,17 +102,17 @@
                     grandTotal += itemTotal;
                     <tr>
                         <td>@cartItem.Food.FoodName</td>
-                        <td>
-                            <form asp-controller="Order" asp-action="UpdateCartItemQuantity" method="post" class="d-flex align-items-center">
+                        <td class="align-middle text-center">
+                            <form asp-controller="Order" asp-action="UpdateCartItemQuantity" method="post" class="d-flex justify-content-center align-items-center">
                                 <input type="hidden" name="foodId" value="@cartItem.FoodId" />
-                                <button type="button" class="btn btn-sm btn-secondary quantity-control" data-action="decrement">-</button>
-                                <input type="number" name="quantity" value="@cartItem.Quantity" min="1" class="form-control quantity-input" />
-                                <button type="button" class="btn btn-sm btn-secondary quantity-control" data-action="increment">+</button>
+                                <button type="button" class="btn btn-sm btn-danger ml-3 quantity-control" data-action="decrement">-</button>
+                                <input style="margin : 5px; border : none;" type="number" name="quantity" value="@cartItem.Quantity" min="1" class="form-control quantity-input" />
+                                <button type="button" class="btn btn-sm btn-success quantity-control" data-action="increment">+</button>
                                 <!-- Remove the 'Update' button -->
                             </form>
                         </td>
+
                         <td>@cartItem.Food.Price</td>
-                        <td>@(cartItem.Quantity * cartItem.Food.Price)</td>
                         <td>
                             <form asp-controller="Order" asp-action="RemoveCartItem" method="post">
                                 <input type="hidden" name="foodId" value="@cartItem.FoodId" />
@@ -88,41 +121,12 @@
                         </td>
                     </tr>
                 }
-                <p>Grand Total : @grandTotal</p>
             </tbody>
         </table>
-        <div class="mt-4">
-            <h2>Payment Methods</h2>
-            <form asp-controller="Order" asp-action="PlaceOrder" method="post">
-                <div class="form-check">
-                    <input type="radio" name="paymentMethod" value="esewa" class="form-check-input" id="esewaRadio" required />
-                    <label class="form-check-label" for="esewaRadio">Pay via eSewa</label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" name="paymentMethod" value="khati" class="form-check-input" id="khatiRadio" required />
-                    <label class="form-check-label" for="khatiRadio">Pay via Khati</label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" name="paymentMethod" value="namk" class="form-check-input" id="namkRadio" required />
-                    <label class="form-check-label" for="namkRadio">Pay via Bank</label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" name="paymentMethod" value="cod" class="form-check-input" id="codRadio" required />
-                    <label class="form-check-label" for="codRadio">Cash on Delivery</label>
-                </div>
 
-                <!-- New section for delivery address -->
-                <div class="mt-3">
-                    <label for="deliveryAddress" class="form-label">Delivery Address:</label>
-                    <input type="text" name="deliveryAddress" class="form-control" required />
-                </div>
-
-                <button type="submit" class="btn btn-success mt-3">Place Order</button>
-            </form>
-            <div class="mt-4">
-                <!-- Add a button to proceed to the payment page -->
-                <a asp-controller="Order" asp-action="Payment" asp-route-cartId="@Model.CartId" class="btn btn-primary">Proceed to Payment</a>
-            </div>
+        <div class="proceed-to-payment">
+            <!-- Add a button to proceed to the payment page -->
+            <a asp-controller="Order" asp-action="Payment" asp-route-cartId="@Model.CartId" class="btn" style="background-color: #ff692a; color : white;">Proceed to Payment</a>
         </div>
     }
     else

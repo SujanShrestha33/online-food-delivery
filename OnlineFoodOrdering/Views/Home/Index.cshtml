@@ -23,7 +23,10 @@
                     quam nobis cupiditate dolores error id inventore corrupti quidem
                     omnis.
                 </p>
-                @if (User.IsInRole("customer"))
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    
+                @if (User.IsInRole("Customer"))
                 {
                     
                 <div>
@@ -31,7 +34,8 @@
                         Order Now
                     </button> *@
                     <a class="btn" style="background-color: #ff692a; font-weight:900; color: white;" asp-area="" asp-controller="Foods" asp-action="Index">Order Now</a>
-                </div>
+                        </div>
+                    }
                 }
             </div>
             <div class="col-md-6">
@@ -57,19 +61,6 @@
                         <span class="accent"> 100+ </span>
                     </h3>
                     <p>Delivery Means</p>
-                </div>
-            </div>
-        </section>
-        <section class="section-featured mt-4">
-            <div class="container mx-auto px-3">
-                <h2 class="heading-featured-in">As featured in</h2>
-                <div class="logos d-flex justify-content-around flex-column gap-3 flex-sm-row">
-                    <img src="./techcrunch.png" alt="Techcrunch logo" />
-                    <img src="./business-insider.png" alt="Business Insider logo" />
-                    <img src="./the-new-york-times.png"
-                         alt="The New York Times logo" />
-                    <img src="./forbes.png" alt="Forbes logo" />
-                    <img src="./usa-today.png" alt="USA Today logo" />
                 </div>
             </div>
         </section>

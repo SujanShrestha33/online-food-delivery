@@ -7,6 +7,7 @@
 
 <div class="container mt-5">
     <h1>Order History</h1>
+    <div class="table-responsive">
 
     <table class="table table-striped">
         <thead>
@@ -42,21 +43,6 @@
             }
         </tbody>
     </table>
+    </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var successMessage = "@TempData["SuccessMessage"]";
-
-        if (successMessage) {
-            // Display a Bootstrap alert with the success message
-            var alertHtml = `<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    ${successMessage}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                 </div>`;
-
-            // Append the alert to the container
-            document.body.insertAdjacentHTML("beforeend", alertHtml);
-        }
-    });
-</script>

@@ -6,16 +6,18 @@
 }
 
 <div class="container mt-5">
-    <h1>Payment Details</h1>
+    <h1 class="text-center text-primary">Payment Details</h1>
 
     <!-- Display order details (total items, total quantity, total price) -->
-    <p>Total Items: @Model.CartItems.Count</p>
-    <p>Total Quantity: @Model.CartItems.Sum(ci => ci.Quantity)</p>
-    <p>Total Price: @(Model.CartItems.Sum(ci => ci.Quantity * ci.Food.Price))</p>
+    <div class="mb-3">
+        <p>Total Items: @Model.CartItems.Count</p>
+        <p>Total Quantity: @Model.CartItems.Sum(ci => ci.Quantity)</p>
+        <p>Total Price: @(Model.CartItems.Sum(ci => ci.Quantity * ci.Food.Price))</p>
+    </div>
 
     <!-- Display a table with details of each item in the cart -->
     <table class="table table-bordered mt-3">
-        <thead>
+        <thead class="thead-dark">
             <tr>
                 <th>Food Name</th>
                 <th>Quantity</th>
@@ -47,31 +49,28 @@
             <input type="text" name="deliveryAddress" class="form-control" required />
         </div>
 
-        <h2>Payment Methods</h2>
+        <h2 class="mt-3 mb-3">Payment Methods</h2>
 
-        <!-- Add your payment method options here -->
-
-        <div class="form-check">
-            <input type="radio" name="paymentMethod" value="esewa" class="form-check-input" id="esewaRadio" required />
-            <label class="form-check-label" for="esewaRadio">Pay via eSewa</label>
+        <div class="form-check mb-3">
+            <input type="radio" name="paymentMethod" value="cash" class="form-check-input" id="cashRadio" required />
+            <label class="form-check-label" for="cashRadio">Pay via Cash</label>
         </div>
 
-        <!-- Add the Stripe payment method option -->
-        <div class="form-check">
+        <div class="form-check mb-3">
             <input type="radio" name="paymentMethod" value="stripe" class="form-check-input" id="stripeRadio" required />
             <label class="form-check-label" for="stripeRadio">Pay with Credit Card (Stripe)</label>
         </div>
 
         <!-- Include the Stripe payment element container -->
-        <div id="card-element"></div>
+        <div id="card-element" class="mb-3"></div>
 
         <!-- Display potential error messages -->
-        <div id="card-errors" role="alert"></div>
+        <div id="card-errors" role="alert" class="text-danger mb-3"></div>
 
-        <button type="submit" class="btn btn-success mt-3">Proceed to Payment</button>
+        <button type="submit" class="btn btn-success">Proceed to Payment</button>
     </form>
 
-    <!-- Add the following script to handle Stripe.js functionality -->
+    <!-- Add the following script to handle payment functionality -->
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         var stripe = Stripe('pk_test_51OL0NCJOQ7GO3LnRuPjsC6QYGynyYxAHYSjzlegyr6mGxIuGoJnyKSRZOBlX5KBp3N2oF6TTYEvCXqsUMvUH3kzX00QdcGOeKd'); // Replace with your actual Stripe public key
@@ -98,19 +97,29 @@
         form.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            stripe.createPaymentMethod({
-                type: 'card',
-                card: card,
-            }).then(function (result) {
-                if (result.error) {
-                    // Inform the user if there was an error
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    // Proceed to form submission
-                    form.submit();
-                }
-            });
+            var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            if (paymentMethod === 'cash') {
+                // Handle cash payment here
+                // You may want to add additional logic for cash processing
+                // Proceed to form submission
+                form.submit();
+            } else if (paymentMethod === 'stripe') {
+                // Handle Stripe payment here
+                stripe.createPaymentMethod({
+                    type: 'card',
+                    card: card,
+                }).then(function (result) {
+                    if (result.error) {
+                        // Inform the user if there was an error
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        // Proceed to form submission
+                        form.submit();
+                    }
+                });
+            }
         });
     </script>
 </div>
