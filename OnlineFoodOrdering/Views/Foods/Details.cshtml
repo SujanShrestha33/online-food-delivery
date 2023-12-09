@@ -11,10 +11,6 @@
 }
 
 <style>
-    .container {
-        margin-top: 20px;
-    }
-
     h1, h4, h5 {
         color: #ff692a;
     }
@@ -28,12 +24,15 @@
     .card {
         max-height: 300px;
         overflow: hidden;
+        border: 1px solid #ddd;
+        border-radius: 8px;
     }
 
         .card img {
             object-fit: cover;
             max-width: 100%;
             max-height: 100%;
+            border-bottom: 1px solid #ddd;
         }
 
     .lead {
@@ -49,9 +48,12 @@
         margin-left: 0;
     }
 
-    .btn-primary {
+    .btn-primary,
+    .btn-add-to-cart {
         background-color: #ff692a;
         border: 1px solid #ff692a;
+        font-weight: 600;
+        color: white;
     }
 
     .btn-secondary {
@@ -61,9 +63,25 @@
     }
 
         .btn-primary:hover,
+        .btn-add-to-cart:hover,
         .btn-secondary:hover {
             filter: brightness(90%);
         }
+
+    .quantity-group {
+        display: flex;
+        align-items: center;
+    }
+
+/*     .quantity-label {
+        margin: 10px;
+        mergin-right : 10px;
+    } */
+
+    .quantity-input {
+        width: 150px;
+        /* text-align: center; */
+    }
 </style>
 
 <div class="container mt-4">
@@ -92,18 +110,11 @@
                         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.SubCategory)</dt>
                         <dd class="col-sm-10">@Html.DisplayFor(model => model.SubCategory.SubCategoryDesc)</dd>
 
-                        @* <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Photo)</dt>
-                        <dd class="col-sm-10">@Html.DisplayFor(model => model.Photo)</dd> *@
-
                         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Price)</dt>
                         <dd class="col-sm-10">@Html.DisplayFor(model => model.Price)</dd>
 
                         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Availability)</dt>
                         <dd class="col-sm-10">@Html.DisplayFor(model => model.Availability)</dd>
-
-              @*           <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ModifiedAt)</dt>
-                        <dd class="col-sm-10">@Html.DisplayFor(model => model.ModifiedAt)</dd> *@
-                       
                     </dl>
                 </div>
             </div>
@@ -111,39 +122,38 @@
     </div>
 </div>
 
- @if (SignInManager.IsSignedIn(User))
+@if (SignInManager.IsSignedIn(User))
 {
     @if (User.IsInRole("Customer"))
     {
         <div class="container mt-4">
             <div class="row">
                 <div class="col-md-12">
-                    <form asp-controller="Order" asp-action="AddToCart" method="post">
-                        <div class="form-group" style="gap: 10px;">
-                            <label for="quantity">Quantity:</label>
-                            <input type="number" name="quantity" value="1" min="1" class="form-control" />
+                    <form asp-controller="Order" asp-action="AddToCart" method="post" class="quantity-group">
+                        <div class="form-group">
+                            <label for="quantity" class="quantity-label">Quantity:</label>
+                            <input type="number" name="quantity" value="1" min="1" class="form-control quantity-input" />
                         </div>
                         <input type="hidden" name="foodId" value="@Html.DisplayFor(model => model.FoodId)" />
-                        <button type="submit" class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight: 600; color: white;">Add to Cart</button>
+                        <button style="margin-left : 10px !important;" type="submit" class="btn mt-auto btn-add-to-cart ml-2">Add to Cart</button>
                     </form>
                 </div>
             </div>
         </div>
     }
 }
-
- @if (SignInManager.IsSignedIn(User))
-                    {
-                        
-                            @if (User.IsInRole("Admin"))
+@if (SignInManager.IsSignedIn(User))
 {
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-12">
-                <a asp-action="Edit" asp-route-id="@Model?.FoodId" class="btn btn-primary">Edit</a>
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <a asp-action="Edit" asp-route-id="@Model?.FoodId" class="btn btn-primary">Edit</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
             </div>
         </div>
-    </div>
+    }
 }
-                    }
+</div>

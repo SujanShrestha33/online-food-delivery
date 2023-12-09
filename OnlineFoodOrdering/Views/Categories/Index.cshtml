@@ -31,7 +31,7 @@
                             <td>@Html.DisplayFor(modelItem => item.Description)</td>
                             <td>@Html.DisplayFor(modelItem => item.ModifiedDate)</td>
                             <td>
-                                <div class="btn-group" style="gap : 10px;" role="group">
+                                <div class="btn-group" role="group" style="gap : 10px">
                                     <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-warning btn-sm">Edit</a>
                                     <a asp-action="Details" asp-route-id="@item.CategoryId" class="btn btn-info btn-sm">Details</a>
                                     <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-danger btn-sm">Delete</a>
@@ -45,15 +45,17 @@
     }
     else
     {
-        <div class="row gy-3" style="gap : 10px;">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             @foreach (var category in Model)
             {
-                <div class="card" style="width: 18rem;">
-                    <img src="@Html.DisplayFor(modelItem => category.CategoryImage)" class="card-img-top img-fluid mt-2" alt="Category Image" style="height: 200px; object-fit: cover; border-bottom: 2px solid #ff692a;" />
-                    <div class="card-body text-center">
-                        <h5 class="card-title" style="color: #ff692a;">@Html.DisplayFor(modelItem => category.CategoryName)</h5>
-                        <p class="card-text">@Html.DisplayFor(modelItem => category.Description)</p>
-                        <a href="@Url.Action("Details", new { id = category.CategoryId })" class="btn" style="background-color: #ff692a; font-weight: 600; color : white;">Details</a>
+                <div class="col">
+                    <div class="card">
+                        <img src="@Html.DisplayFor(modelItem => category.CategoryImage)" class="card-img-top img-fluid" alt="Category Image" style="height: 200px; object-fit: cover; border-bottom: 2px solid #ff692a;" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title" style="color: #ff692a;">@Html.DisplayFor(modelItem => category.CategoryName)</h5>
+                            <p class="card-text">@Html.DisplayFor(modelItem => category.Description)</p>
+                            <a href="@Url.Action("Details", new { id = category.CategoryId })" class="btn" style="background-color: #ff692a; font-weight : 600; color: white">Details</a>
+                        </div>
                     </div>
                 </div>
             }

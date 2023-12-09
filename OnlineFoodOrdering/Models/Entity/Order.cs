@@ -31,5 +31,7 @@ namespace OnlineFoodOrdering.Models.Entity
         public List<OrderItem> OrderItems { get; set; }
 
         public string Feedback {  get; set; }
+
+        public string StripePaymentIntentId { get; set; }
     }
 }

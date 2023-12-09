@@ -11,10 +11,6 @@
 }
 
 <style>
-    .container {
-        margin-top: 20px;
-    }
-
 
     h1, h4, h5 {
         color: #ff692a;
@@ -176,17 +172,23 @@
                             <h5 class="card-title">@Html.DisplayFor(modelItem => foods.FoodName)</h5>
                             <p class="card-text">@Html.DisplayFor(modelItem => foods.FoodDescription)</p>
                             <p class="card-text">@Html.DisplayFor(modelItem => foods.SubCategory.SubCategoryName) Price : @Html.DisplayFor(modelItem => foods.Price)</p>
+                            @* <p class="card-text">@Html.DisplayFor(modelItem => foods.Price)</p> *@
+                            @* @if (User.IsInRole("customer")) *@
+                            @* { *@
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                <form asp-controller="Order" asp-action="AddToCart" method="post">
-                                    <div class="form-group">
-                                        <label for="quantity">Quantity:</label>
-                                        <input type="number" name="quantity" value="1" min="1" class="form-control" />
-                                    </div>
-                                    <input type="hidden" name="foodId" value="@foods.FoodId" />
-                                    <button type="submit" class="btn mt-auto btn-add-to-cart">Add to Cart</button>
-                                </form>
+
+                                @*  <form asp-controller="Order" asp-action="AddToCart" method="post">
+                    <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" value="1" min="1" class="form-control" />
+                    </div>
+                    <input type="hidden" name="foodId" value="@foods.FoodId" /> <!-- Add this line -->
+                    <button type="submit" class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</button>
+                    </form> *@
+                                <a asp-action="Details" asp-controller="Foods" asp-route-id="@foods.FoodId" class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</a>
                             }
+
                         </div>
                     </div>
                 </div>

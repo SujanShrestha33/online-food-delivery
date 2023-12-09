@@ -62,8 +62,8 @@
         }
 </style>
 
-<div class="container mt-5">
-    <h1>Food Items</h1>
+<div class="container mt-2">
+    <h1 style="color :#ff692a;">Food Items</h1>
     @if (User.IsInRole("Admin"))
     {
         <p>
@@ -79,7 +79,7 @@
                         <th>Food Description</th>
                         <th>Sub Category</th>
                         <th>Price</th>
-                        <th>Availability</th>
+                        @* <th>Availability</th> *@
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -92,7 +92,7 @@
                             <td>@Html.DisplayFor(modelItem => item.FoodDescription)</td>
                             <td>@Html.DisplayFor(modelItem => item.SubCategory.SubCategoryName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Availability)</td>
+                            @* <td>@Html.DisplayFor(modelItem => item.Availability)</td> *@
                             <td>
                                 <div class="btn-group" style="gap : 10px;" role="group">
                                     <a asp-action="Edit" asp-route-id="@item.FoodId" class="btn btn-warning btn-sm">Edit</a>
@@ -112,34 +112,22 @@
             @foreach (var foods in Model)
             {
                 <div class="col">
-                    <div class="card food-card">
+                    <div class="card food-card mx-auto">
+                        <!-- Add mx-auto for horizontal centering -->
                         <img src="@Url.Content(foods.Photo)" class="card-img-top img-fluid" alt="Food Image" />
                         <div class="card-body">
                             <h5 class="card-title">@Html.DisplayFor(modelItem => foods.FoodName)</h5>
                             <p class="card-text">@Html.DisplayFor(modelItem => foods.FoodDescription)</p>
                             <p class="card-text">@Html.DisplayFor(modelItem => foods.SubCategory.SubCategoryName) Price : @Html.DisplayFor(modelItem => foods.Price)</p>
-                            @* <p class="card-text">@Html.DisplayFor(modelItem => foods.Price)</p> *@
-                            @* @if (User.IsInRole("customer")) *@
-                            @* { *@
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                
-                           @*  <form asp-controller="Order" asp-action="AddToCart" method="post">
-                                    <div class="form-group">
-                                        <label for="quantity">Quantity:</label>
-                                        <input type="number" name="quantity" value="1" min="1" class="form-control" />
-                                    </div>
-                                    <input type="hidden" name="foodId" value="@foods.FoodId" /> <!-- Add this line -->
-                                    <button type="submit" class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</button>
-                                </form> *@
                                 <a asp-action="Details" asp-route-id="@foods.FoodId" class="btn mt-auto btn-add-to-cart" style="background-color: #ff692a; font-weight:600; color: white;">Add to Cart</a>
-
                             }
-                          
                         </div>
                     </div>
                 </div>
             }
         </div>
-    }
+            }
+        </div>
 </div>
